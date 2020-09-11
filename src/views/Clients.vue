@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <DataTable :items="products" :fields="fields"/>
+      <DataTable :items="clients" :fields="fields"/>
     </div>
   </div>
 
@@ -29,34 +29,34 @@ export default {
     DataTable
   },
   data: () => ({
-    products: [],
+    clients: [],
     fields: [{
-      key: 'name',
-      label: "Название",
+      key: 'firstName',
+      label: "Имя",
       sortable: true
     },
     {
-      key: 'category.name',
-      label: 'Категория',
+      key: 'lastName',
+      label: 'Фамилия',
       sortable: true
     },
     {
-      key: 'price',
-      label: 'Цена',
+      key: 'email',
+      label: 'Email',
       sortable: true
     },
     {
-      key: 'quantity',
-      label: 'Количество на складе',
+      key: 'phoneNumber',
+      label: 'Телефон',
       sortable: true
     }]
   }),
   mounted : async function() {
-    await this.$store.dispatch('fetchProductsIfTheyAreNotLoaded');
-    this.products = this.allProducts;
+    await this.$store.dispatch('fetchClientsIfTheyAreNotLoaded');
+    this.clients = this.allClients;
   },
   computed: {
-    ...mapGetters(['allProducts'])
+    ...mapGetters(['allClients'])
   }
 }
 </script>
