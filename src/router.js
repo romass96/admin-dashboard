@@ -25,6 +25,15 @@ const router = new Router({
       component: () => import('./views/Login.vue')
     },
     {
+      path: '/forgotPassword',
+      name: 'forgot-password',
+      meta: {
+        layout: 'auth',
+        requiredAuth: false
+      },
+      component: () => import('./views/ForgotPassword.vue')
+    },
+    {
       path: '/categories',
       name: 'categories',
       meta: {
@@ -97,19 +106,45 @@ const router = new Router({
       component: () => import('./views/EditProduct.vue')
     },
     {
-      path: '*',
-      name: 'pageNotFound',
+      path: '/clients',
+      name: 'clients',
       meta: {
         layout: 'main',
         requiredAuth: true
+      },
+      component: () => import('./views/Clients.vue')
+    },
+    {
+      path: '/admins',
+      name: 'admins',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/Admins.vue')
+    },
+    {
+      path: '*',
+      name: 'pageNotFound',
+      meta: {
+        layout: 'empty'
       },
       component: () => import('./views/PageNotFound.vue')
     }
   ]
 });
 
+async function fetchUserInfo(token) {
+  await store.dispatch('fetchUserInfo', token);
+}
+
 router.beforeEach((to, from, next) => {
-  const currentUser = store.state.AuthModule.user;
+  let currentUser = store.state.AuthModule.user;
+  const token = Vue.cookie.get('token');
+  if (!currentUser && token) {
+    fetchUserInfo(token);
+    currentUser = store.state.AuthModule.user;
+  }
   const requiredAuth = to.matched.some(record => record.meta.requiredAuth);
 
   if (requiredAuth && !currentUser) {
@@ -118,5 +153,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
 
 export default router;

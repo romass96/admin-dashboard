@@ -1,5 +1,5 @@
 <template>
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-purple sidebar sidebar-dark accordion" id="accordionSidebar">
 
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -37,10 +37,17 @@
     </a>
   </router-link>
 
-  <router-link tag="li" active-class="active" to="/users" class="nav-item">
+  <router-link tag="li" active-class="active" to="/clients" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-fw fa-user"></i>
       <span class="ml-1">Клиенты</span>
+    </a>
+  </router-link>
+
+  <router-link tag="li" active-class="active" to="/admins" class="nav-item">
+    <a class="nav-link">
+      <i class="fas fa-fw fa-user-shield"></i>
+      <span class="ml-1">Админы</span>
     </a>
   </router-link>
 

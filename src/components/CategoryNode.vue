@@ -14,21 +14,21 @@
       <span id="action-bar">
         <router-link
           tag="button"
-          class="btn btn-circle btn-primary btn-sm m-1"
+          class="btn btn-circle btn-dark btn-sm m-1"
           v-b-tooltip.hover title="Добавить подкатегорию"
           :to="{ name: 'create-category', query: {parentCategoryId: category.id}}">
           <i class="fas fa-plus"></i>
         </router-link>
         <router-link
           tag="button"
-          class="btn btn-circle btn-primary btn-sm m-1"
+          class="btn btn-circle btn-dark btn-sm m-1"
           v-b-tooltip.hover title="Просмотр"
           :to="{ name: 'view-category', query: {categoryId: category.id}}">
           <i class="fas fa-info"></i>
         </router-link>
         <router-link
           tag="button"
-          class="btn btn-circle btn-primary btn-sm m-1"
+          class="btn btn-circle btn-dark btn-sm m-1"
           v-b-tooltip.hover title="Изменить"
           :to="{ name: 'edit-category', query: {categoryId: category.id}}">
           <i class="fas fa-pencil-alt"></i>

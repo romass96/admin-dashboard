@@ -1,15 +1,14 @@
-import axios from 'axios'
+import httpUtils from '@/utils/http.utils'
 
 const apiUrl = process.env.VUE_APP_API_URL + "/api/products";
 
 export default {
   actions: {
     async fetchProducts(context) {
-      const response = await axios.get(apiUrl);
+      const response = await httpUtils.axiosWithHeader().get(apiUrl);
       const products = response.data;
       context.commit('updateProducts', products);
       context.commit('setProductsLoaded');
-      console.log(products);
       return products;
     },
     async fetchProductsIfTheyAreNotLoaded(context) {
@@ -18,18 +17,18 @@ export default {
       }
     },
     async addProduct(context, product) {
-      const response = await axios.post(apiUrl, product);
+      const response = await httpUtils.axiosWithHeader().post(apiUrl, product);
       const productWithId = response.data;
       context.commit('addProduct', productWithId);
     },
     async deleteProduct(context, productId) {
       const url = `${apiUrl}/${productId}`;
-      await axios.delete(url);
+      await httpUtils.axiosWithHeader().delete(url);
       context.commit('removeProduct', productId);
     },
     async updateProduct(context, product) {
       const url = `${apiUrl}/${product.id}`;
-      await axios.put(url, product);
+      await httpUtils.axiosWithHeader().put(url, product);
       await context.dispatch('fetchProducts');
     }
   },

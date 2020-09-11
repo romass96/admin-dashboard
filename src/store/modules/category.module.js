@@ -1,12 +1,12 @@
-import axios from 'axios'
 import hash from 'object-hash'
+import httpUtils from '@/utils/http.utils'
 
 const apiUrl = process.env.VUE_APP_API_URL + "/api/categories";
 
 export default {
   actions: {
     async fetchCategories(context) {
-      const response = await axios.get(apiUrl);
+      const response = await httpUtils.axiosWithHeader().get(apiUrl);
       const categories = response.data;
       context.commit('updateCategories', categories);
       context.commit('setCategoriesLoaded');
@@ -18,18 +18,18 @@ export default {
       }
     },
     async addCategory(context, category) {
-      const response = await axios.post(apiUrl, category);
+      const response = await httpUtils.axiosWithHeader().post(apiUrl, category);
       const categoryWithId = response.data;
       context.commit('addCategory', categoryWithId);
     },
     async deleteCategory(context, categoryId) {
       const url = `${apiUrl}/${categoryId}?returnAll=true`;
-      const categories = await axios.delete(url);
+      const categories = await httpUtils.axiosWithHeader().delete(url);
       context.commit('updateCategories', categories);
     },
     async updateCategory(context, category) {
       const url = `${apiUrl}/${category.id}`;
-      await axios.put(url, category);
+      await httpUtils.axiosWithHeader().put(url, category);
       await context.dispatch('fetchCategories');
     }
   },

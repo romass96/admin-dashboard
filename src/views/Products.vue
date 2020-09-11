@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <router-link class="btn btn-primary btn-circle btn-lg"
+      <router-link class="btn btn-dark btn-circle btn-lg"
           v-b-tooltip.hover title="Добавить товар"
           id="add-product-btn"
           tag="button"
@@ -21,75 +21,43 @@
         <i class="fas fa-plus"></i>
       </router-link>
 
-      <div class="mb-2 d-flex justify-content-between">
-        <div class="d-inline-block">
-          <span>Показывать </span>
-          <select class="form-control" id="perPageSelect" @change="changePerPage($event.target.value)">
-            <option v-for="p in perPageOptions" :key="p" :value="p">{{ p }}</option>
-          </select>
-          <span> записей</span>
-        </div>
-        <div class="d-inline-block">
-          <div class="input-group flex-nowrap">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fas fa-search"></i>
-              </span>
-            </div>
-            <input type="text" class="form-control" placeholder="Поиск">
-          </div>
-        </div>
-      </div>
-
-      <b-table striped hover bordered id="productTable"
-        :items="products"
-        :fields="fields"
-        :per-page="perPage"
-        :current-page="currentPage">
-
+      <DataTable :items="products" :fields="fields">
         <template v-slot:cell(actions)="data">
           <span class="action-bar">
             <router-link
                 tag="button"
-                class="btn btn-circle btn-primary btn-sm m-1"
+                class="btn btn-circle btn-dark btn-sm m-1"
                 v-b-tooltip.hover title="Детали"
                 :to="{ name: 'view-product', query: {productId: data.item.id}}">
               <i class="fas fa-info"></i>
             </router-link>
             <router-link
                 tag="button"
-                class="btn btn-circle btn-primary btn-sm m-1"
+                class="btn btn-circle btn-dark btn-sm m-1"
                 v-b-tooltip.hover title="Изменить"
                 :to="{ name: 'edit-product', query: {productId: data.item.id}}">
               <i class="fas fa-pencil-alt"></i>
             </router-link>
-            <button class="btn btn-circle btn-danger btn-sm m-1" v-b-tooltip.hover title="Удалить" @click="showModalForDelete(data.item.id)">
-              <i class="fas fa-trash"></i>
-            </button>
-            <button class="btn btn-circle btn-primary btn-sm m-1" v-b-tooltip.hover title="Внести на склад" @click="showModalForDelete(data.id)">
+
+            <button class="btn btn-circle btn-dark btn-sm m-1" v-b-tooltip.hover title="Внести на склад" @click="showModalForDelete(data.id)">
               <i class="fas fa-dolly-flatbed"></i>
             </button>
-            <button class="btn btn-circle btn-primary btn-sm m-1" v-b-tooltip.hover title="Статистика" @click="showModalForDelete(data.id)">
+            <button class="btn btn-circle btn-dark btn-sm m-1" v-b-tooltip.hover title="Статистика" @click="showModalForDelete(data.id)">
               <i class="fas fa-chart-bar"></i>
             </button>
             <router-link
                 tag="button"
-                class="btn btn-circle btn-primary btn-sm m-1"
+                class="btn btn-circle btn-dark btn-sm m-1"
                 v-b-tooltip.hover title="Клонировать"
                 :to="{ name: 'create-product', query: {sourceId: data.item.id}}">
               <i class="fas fa-clone"></i>
             </router-link>
+            <button class="btn btn-circle btn-danger btn-sm m-1" v-b-tooltip.hover title="Удалить" @click="showModalForDelete(data.item.id)">
+              <i class="fas fa-trash"></i>
+            </button>
           </span>
         </template>
-
-      </b-table>
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="productTable">
-      </b-pagination>
-
+      </DataTable>
     </div>
   </div>
 
@@ -109,9 +77,13 @@
 </template>
 
 <script>
+import DataTable from '@/components/DataTable'
 import { mapGetters } from 'vuex'
 
 export default {
+  components: {
+    DataTable
+  },
   data: () => ({
     perPageOptions: [
       5, 10, 15, 20, 25, 50

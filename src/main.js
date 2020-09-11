@@ -11,6 +11,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@/assets/css/sb-admin-2.css'
 import {ModalPlugin, VBTooltipPlugin, TablePlugin, PaginationPlugin  } from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
+import VueCookie from 'vue-cookie'
 
 
 Vue.config.productionTip = false;
@@ -20,6 +21,7 @@ Vue.use(VBTooltipPlugin);
 Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(Vuelidate);
+Vue.use(VueCookie);
 
 new Vue({
   router,

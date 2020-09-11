@@ -1,38 +1,48 @@
 import axios from 'axios'
+import Vue from 'vue';
+import httpUtils from '@/utils/http.utils'
 
 const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   actions: {
-    async login({commit},{email, password}) {
+    async login({commit},{email, password, rememberMe}) {
       try {
         const response = await axios.post(apiUrl + '/api/auth/admin/signin', {
             email, password
         });
-        console.log(response);
-        if (response.data.token) {
-          localStorage.setItem('user', response.data);
+        const userInfo = response.data;
+        if (rememberMe) {
+          Vue.cookie.set('token', userInfo.token, {expires: '1h'});
         }
-        commit('loginSuccess', response.data);
+        commit('setUser', userInfo);
       } catch (e) {
         commit('loginFailure');
         throw e;
       }
     },
     logout({commit}) {
-      localStorage.removeItem('user');
+      Vue.cookie.delete('token');
       commit('logout');
+    },
+    async resetPassword() {
+
+    },
+    async fetchUserInfo(context, token) {
+      context.commit('setUser', {token});
+      const response = await httpUtils.axiosWithHeader().get(apiUrl + '/api/auth/fetchUserInfo');
+      context.commit('setUser', response.data);
     }
   },
   mutations: {
-    loginSuccess(state, user) {
-      state.user = user;
-    },
     loginFailure(state) {
       state.user = null;
     },
     logout(state) {
       state.user = null;
+    },
+    setUser(state, user) {
+      state.user = user;
     }
   },
   state: {

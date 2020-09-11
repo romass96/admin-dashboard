@@ -17,9 +17,9 @@
 
 <style>
 body {
-  background-color: #4e73df;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #4e73df), to(#224abe));
-  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+  background-color: #6f2ab0;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #6f2ab0), to(#491074));
+  background-image: linear-gradient(180deg, #6f2ab0 10%, #491074 100%);
   background-size: cover;
 }
 </style>

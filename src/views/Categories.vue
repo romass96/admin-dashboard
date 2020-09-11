@@ -4,9 +4,15 @@
       <h1 class="h3 mb-0 text-gray-800">Категории</h1>
     </div>
     <CategoryTree :tree="tree"/>
-    <button class="btn btn-primary mt-2" @click="$router.push('/createCategory');">
-      Добавить категорию
-    </button>
+
+
+    <router-link class="btn btn-dark btn-circle btn-lg"
+        v-b-tooltip.hover title="Добавить категорию"
+        id="add-category-btn"
+        tag="button"
+        to="/createCategory">
+      <i class="fas fa-plus"></i>
+    </router-link>
 
     <b-modal ref="delete-category-modal" :static="true">
       <template v-slot:modal-title>
@@ -64,3 +70,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#add-category-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+}
+</style>

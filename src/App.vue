@@ -9,6 +9,8 @@
 <script>
 import AuthLayout from '@/layouts/AuthLayout'
 import MainLayout from '@/layouts/MainLayout'
+import EmptyLayout from '@/layouts/EmptyLayout'
+
 export default {
   computed: {
     layout() {
@@ -17,7 +19,8 @@ export default {
   },
   components: {
     'auth-layout': AuthLayout,
-    'main-layout' : MainLayout
+    'main-layout' : MainLayout,
+    'empty-layout' : EmptyLayout
   }
 }
 </script>

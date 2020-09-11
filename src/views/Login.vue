@@ -6,7 +6,7 @@
       <div class="text-center">
         <h1 class="h4 text-gray-900 mb-4">Добро пожаловать!</h1>
       </div>
-      <form class="user" @submit.prevent="login">
+      <form class="user" @submit.prevent="login" ref="loginForm">
         <div class="form-group">
           <input
             type="email"
@@ -31,17 +31,19 @@
         </div>
         <div class="form-group">
           <div class="custom-control custom-checkbox small">
-            <input type="checkbox" class="custom-control-input" id="customCheck">
-            <label class="custom-control-label" for="customCheck">Запомнить меня</label>
+            <input type="checkbox" class="custom-control-input" id="rememberMe" v-model="rememberMe">
+            <label class="custom-control-label" for="rememberMe" >Запомнить меня</label>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-user btn-block">
+        <button type="submit" class="btn btn-dark btn-user btn-block">
           Войти
         </button>
       </form>
       <hr>
       <div class="text-center">
-        <a class="small" href="forgot-password.html">Забыл пароль?</a>
+        <router-link to="/forgotPassword" class="small">
+          Забыл пароль?
+        </router-link>
       </div>
     </div>
   </div>
@@ -54,7 +56,8 @@ import { email, required, minLength } from 'vuelidate/lib/validators'
 export default {
   data: () => ({
     email: '',
-    password: ''
+    password: '',
+    rememberMe: false
   }),
   validations: {
     email: { email, required },
@@ -68,11 +71,22 @@ export default {
       }
       const formData = {
         email: this.email,
-        password: this.password
+        password: this.password,
+        rememberMe: this.rememberMe
       }
       this.$store.dispatch('login', formData).then(() => {
         this.$router.push('/dashboard');
-      });
+      }).catch(() => {
+        this.$bvModal.msgBoxOk('Неправильный логин или пароль', {
+          title: 'Ошибка',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: true
+        }).then(() => this.$refs.loginForm.reset());
+      })
     }
   }
 }
