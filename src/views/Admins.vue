@@ -43,7 +43,8 @@ export default {
       sortable: true,
       formatter: value => {
         return value === 'ADMIN' ? 'Администратор' : 'Менеджер';
-      }
+      },
+      filterByFormatted: true
     }]
   }),
   mounted : async function() {

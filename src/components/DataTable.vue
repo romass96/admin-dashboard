@@ -15,7 +15,7 @@
               <i class="fas fa-search"></i>
             </span>
           </div>
-          <input type="text" class="form-control" placeholder="Поиск">
+          <input type="text" class="form-control" placeholder="Поиск" v-model="filter">
         </div>
       </div>
     </div>
@@ -23,6 +23,7 @@
     <b-table hover bordered id="dataTable"
       :items="items"
       :fields="fields"
+      :filter="filter"
       :per-page="perPage"
       :current-page="currentPage">
       <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
@@ -51,7 +52,8 @@ export default {
       5, 10, 15, 20, 25, 50
     ],
     perPage: 5,
-    currentPage: 1
+    currentPage: 1,
+    filter: null
   }),
   methods: {
     changePerPage(perPage) {
