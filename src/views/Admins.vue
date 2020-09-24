@@ -5,7 +5,7 @@
       <h6 class="m-0 font-weight-bold text-primary">Админы</h6>
     </div>
     <div class="card-body">
-      <DataTable :items="users" :fields="fields"/>
+      <DataTable :items="users" :fields="fields" :busy="isBusy"/>
     </div>
   </div>
 
@@ -45,11 +45,13 @@ export default {
         return value === 'ADMIN' ? 'Администратор' : 'Менеджер';
       },
       filterByFormatted: true
-    }]
+    }],
+    isBusy: true
   }),
   mounted : async function() {
     await this.$store.dispatch('fetchUsersIfTheyAreNotLoaded');
     this.users = this.allUsers;
+    this.isBusy = false;
   },
   computed: {
     ...mapGetters(['allUsers'])

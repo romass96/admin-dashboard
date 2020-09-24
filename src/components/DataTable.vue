@@ -29,6 +29,12 @@
       <template v-for="(index, name) in $scopedSlots" v-slot:[name]="data">
         <slot :name="name" v-bind="data"></slot>
       </template>
+      <template v-slot:table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Загрузка...</strong>
+        </div>
+      </template>
     </b-table>
 
     <b-pagination
@@ -45,7 +51,8 @@
 export default {
   props: {
     items: Array,
-    fields: Array
+    fields: Array,
+    busy: Boolean
   },
   data: () => ({
     perPageOptions: [

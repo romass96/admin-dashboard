@@ -21,7 +21,7 @@
         <i class="fas fa-plus"></i>
       </router-link>
 
-      <DataTable :items="products" :fields="fields">
+      <DataTable :items="products" :fields="fields" :busy="isBusy">
         <template v-slot:cell(actions)="data">
           <span class="action-bar">
             <router-link
@@ -115,11 +115,13 @@ export default {
       key: 'actions',
       label: 'Действия',
       sortable: false
-    }]
+    }],
+    isBusy: true
   }),
   mounted : async function() {
     await this.$store.dispatch('fetchProductsIfTheyAreNotLoaded');
     this.products = this.allProducts;
+    this.isBusy = false;
   },
   computed: {
     ...mapGetters(['allProducts']),

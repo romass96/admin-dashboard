@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <DataTable :items="clients" :fields="fields"/>
+      <DataTable :items="clients" :fields="fields" :busy="isBusy"/>
     </div>
   </div>
 
@@ -49,11 +49,13 @@ export default {
       key: 'phoneNumber',
       label: 'Телефон',
       sortable: true
-    }]
+    }],
+    isBusy: true
   }),
   mounted : async function() {
     await this.$store.dispatch('fetchClientsIfTheyAreNotLoaded');
     this.clients = this.allClients;
+    this.isBusy = false;
   },
   computed: {
     ...mapGetters(['allClients'])
