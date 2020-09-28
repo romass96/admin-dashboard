@@ -51,13 +51,6 @@
     </a>
   </router-link>
 
-  <router-link tag="li" active-class="active" to="/feedbacks" class="nav-item">
-    <a class="nav-link">
-      <i class="fas fa-comment-alt"></i>
-      <span class="ml-1">Отзывы</span>
-    </a>
-  </router-link>
-
   <li class="nav-item">
     <a class="nav-link" data-toggle="collapse" data-target="#orderMenu" aria-expanded="true" aria-controls="orderMenu">
       <i class="fas fa-fw fa-shopping-cart"></i>
@@ -74,28 +67,37 @@
     </div>
   </li>
 
-  <!-- <router-link tag="li" active-class="active" to="/orders" class="nav-item">
-    <a class="nav-link">
-      <i class="fas fa-fw fa-shopping-cart"></i>
-      <span class="ml-1">Заказы</span>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="collapse" data-target="#feedbackMenu" aria-expanded="true" aria-controls="feedbackMenu">
+      <i class="fas fa-comment-alt"></i>
+      <span class="ml-1">Отзывы</span>
     </a>
-  </router-link> -->
+    <div id="feedbackMenu" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <router-link to="/feedbacks" class="collapse-item" :exact="true">Все</router-link>
+        <router-link to="/feedbacks?period=today" class="collapse-item">За сегодня</router-link>
+        <router-link to="/feedbacks?period=month" class="collapse-item">За месяц</router-link>
+        <router-link to="/feedbacks?feedbackType=negative" :exact="true" class="collapse-item">Негативные</router-link>
+        <router-link to="/feedbacks?feedbackType=positive" :exact="true" class="collapse-item">Положительные</router-link>
+      </div>
+    </div>
+  </li>
 
-  <router-link tag="li" active-class="active" to="/feedbacks" class="nav-item">
+  <router-link tag="li" active-class="active" to="/discounts" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-tags"></i>
       <span class="ml-1">Скидки</span>
     </a>
   </router-link>
 
-  <router-link tag="li" active-class="active" to="/feedbacks" class="nav-item">
+  <router-link tag="li" active-class="active" to="/messages" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-envelope"></i>
       <span class="ml-1">Сообщения</span>
     </a>
   </router-link>
 
-  <router-link tag="li" active-class="active" to="/feedbacks" class="nav-item">
+  <router-link tag="li" active-class="active" to="/settings" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-cog"></i>
       <span class="ml-1">Настройки</span>
@@ -112,3 +114,9 @@
 
 </ul>
 </template>
+
+<style scoped>
+li.nav-item > a {
+  cursor: pointer;
+}
+</style>

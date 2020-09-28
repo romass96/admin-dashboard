@@ -95,28 +95,17 @@
   <!-- Content Row -->
 
   <div class="row">
-    <DateLineChart
-        :title="'Посещаемость сайта'"
-        :backgroundColor="'#f87979'"
-        :timeData="timeData"/>
-    <DateLineChart
-        :title="'Количество заказов'"
-        :backgroundColor="'#36b9cc'"
-        :timeData="timeData"/>
-    <DateLineChart
-        :title="'Количество регистраций пользователей'"
-        :backgroundColor="'#1cc88a'"
-        :timeData="timeData"/>
+    <DateLineChart :title="'Посещаемость сайта'" :backgroundColor="'#f87979'" :timeData="timeData" />
+    <DateLineChart :title="'Количество заказов'" :backgroundColor="'#36b9cc'" :timeData="timeData" />
+    <DateLineChart :title="'Количество регистраций пользователей'" :backgroundColor="'#1cc88a'" :timeData="timeData" />
   </div>
 
   <!-- Content Row -->
   <div class="row">
 
-    <PieChart
-      :title="'Продажа товаров'"/>
+    <PieChart :chartData="chartData" :title="'Продажа товаров'" />
 
-    <PieChart
-      :title="'Продажа товаров'"/>
+    <PieChart :chartData="chartData" :title="'Отзывы'" />
 
   </div>
 
@@ -127,6 +116,7 @@
 <script>
 import DateLineChart from '@/components/charts/DateLineChart'
 import PieChart from '@/components/charts/PieChart'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -134,8 +124,7 @@ export default {
     PieChart
   },
   data: () => ({
-    timeData: [
-      {
+    timeData: [{
         x: new Date(2020, 0, 1),
         y: 10
       },
@@ -191,7 +180,32 @@ export default {
         x: new Date(2020, 9, 1),
         y: 10
       }
-    ]
-  })
+    ],
+    chartData: {}
+  }),
+  async mounted() {
+    await this.initFeedbackChart();
+    await this.initRegistrationsChart();
+  },
+  methods: {
+    async initFeedbackChart() {
+      await this.$store.dispatch('fetchFeedbacksStatistics');
+
+      this.chartData = {
+        labels: ['Положительные', 'Нормальные', 'Негативные'],
+        datasets: [{
+          backgroundColor: ["#41B883", "#F6C23E", "#E46651"],
+          data: [
+            this.positiveFeedbacksCount, this.normalFeedbacksCount, this.negativeFeedbacksCount]
+        }]
+      };
+    },
+    async initRegistrationsChart() {
+
+    }
+  },
+  computed: {
+      ...mapGetters(['negativeFeedbacksCount', 'positiveFeedbacksCount', 'normalFeedbacksCount'])
+  }
 }
 </script>

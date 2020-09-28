@@ -124,6 +124,15 @@ const router = new Router({
       component: () => import('./views/Admins.vue')
     },
     {
+      path: '/feedbacks',
+      name: 'feedbacks',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/Feedbacks.vue')
+    },
+    {
       path: '*',
       name: 'pageNotFound',
       meta: {

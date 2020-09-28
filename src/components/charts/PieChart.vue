@@ -1,11 +1,9 @@
 <template>
   <div class="col-xl-6 col-lg-6">
     <div class="card shadow mb-4">
-      <!-- Card Header - Dropdown -->
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
       </div>
-      <!-- Card Body -->
       <div class="card-body">
         <div class="chart-pie pt-4 pb-2">
           <canvas ref="canvas"></canvas>
@@ -22,29 +20,23 @@ export default {
   extends: Pie,
   props: {
     title: String,
-    backgroundColor: String,
-    timeData: Array
+    chartData: Object
+  },
+  watch: {
+    chartData: function (newValue) {
+      this.initChart(newValue);
+    }
   },
   mounted() {
-    const chartData = {
-      labels: [
-        "Кальяны",
-        "Табак",
-        "Уголь",
-        "Аксессуары"
-      ],
-      datasets: [
-        {
-          backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#F6C23E"],
-          data: [1250, 7400, 2100, 200]
-        }
-      ]
-    };
-    const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false
-    };
-    this.renderChart(chartData, chartOptions);
+    this.initChart(this.chartData);
+  },
+  methods: {
+    initChart(chartData) {
+      this.renderChart(chartData, {
+        responsive: true,
+        maintainAspectRatio: false
+      });
+    }
   }
 }
 </script>

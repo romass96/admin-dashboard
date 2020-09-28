@@ -22,6 +22,7 @@ export default {
       }
     },
     logout({commit}) {
+      window.sessionStorage.clear();
       Vue.cookie.delete('token');
       commit('logout');
     },
