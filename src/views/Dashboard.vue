@@ -97,15 +97,15 @@
   <div class="row">
     <DateLineChart :title="'Посещаемость сайта'" :backgroundColor="'#f87979'" :timeData="timeData" />
     <DateLineChart :title="'Количество заказов'" :backgroundColor="'#36b9cc'" :timeData="timeData" />
-    <DateLineChart :title="'Количество регистраций пользователей'" :backgroundColor="'#1cc88a'" :timeData="timeData" />
+    <DateLineChart :title="'Количество регистраций пользователей'" :backgroundColor="'#1cc88a'" :timeData="clientRegistrationData" />
   </div>
 
   <!-- Content Row -->
   <div class="row">
 
-    <PieChart :chartData="chartData" :title="'Продажа товаров'" />
+    <PieChart :chartData="feedbackChartData" :title="'Продажа товаров'" />
 
-    <PieChart :chartData="chartData" :title="'Отзывы'" />
+    <PieChart :chartData="feedbackChartData" :title="'Отзывы'" />
 
   </div>
 
@@ -117,6 +117,7 @@
 import DateLineChart from '@/components/charts/DateLineChart'
 import PieChart from '@/components/charts/PieChart'
 import {mapGetters} from 'vuex'
+import moment from 'moment'
 
 export default {
   components: {
@@ -181,7 +182,8 @@ export default {
         y: 10
       }
     ],
-    chartData: {}
+    clientRegistrationData: [],
+    feedbackChartData: {}
   }),
   async mounted() {
     await this.initFeedbackChart();
@@ -191,7 +193,7 @@ export default {
     async initFeedbackChart() {
       await this.$store.dispatch('fetchFeedbacksStatistics');
 
-      this.chartData = {
+      this.feedbackChartData = {
         labels: ['Положительные', 'Нормальные', 'Негативные'],
         datasets: [{
           backgroundColor: ["#41B883", "#F6C23E", "#E46651"],
@@ -201,11 +203,17 @@ export default {
       };
     },
     async initRegistrationsChart() {
-
+      await this.$store.dispatch('fetchClientRegistrationStatistics');
+      this.clientRegistrationData = this.clientRegistrations.map(stat => {
+        return {
+          x: moment(stat.registrationDate).toDate(),
+          y: stat.clientsCount
+        };
+      });
     }
   },
   computed: {
-      ...mapGetters(['negativeFeedbacksCount', 'positiveFeedbacksCount', 'normalFeedbacksCount'])
+      ...mapGetters(['negativeFeedbacksCount', 'positiveFeedbacksCount', 'normalFeedbacksCount', 'clientRegistrations'])
   }
 }
 </script>

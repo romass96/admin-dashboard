@@ -15,6 +15,10 @@ export default {
       if (!context.state.clientsLoaded) {
         await context.dispatch('fetchClients');
       }
+    },
+    async fetchClientRegistrationStatistics(context) {
+        const response = await httpUtils.axiosWithHeader().get(apiUrl + '/registrationStatistics');
+        context.commit('updateClientRegistrations', response.data);
     }
   },
   mutations: {
@@ -23,11 +27,15 @@ export default {
     },
     updateClients(state, clients) {
       state.clients = clients;
+    },
+    updateClientRegistrations(state, clientRegistrations) {
+      state.clientRegistrations = clientRegistrations;
     }
   },
   state: {
     clients: [],
-    clientsLoaded: false
+    clientsLoaded: false,
+    clientRegistrations: []
   },
   getters: {
     allClients(state) {
@@ -35,6 +43,9 @@ export default {
     },
     areClientsLoaded(state) {
       return state.clientsLoaded;
+    },
+    clientRegistrations(state) {
+      return state.clientRegistrations;
     }
   }
 }

@@ -25,31 +25,41 @@ export default {
     backgroundColor: String,
     timeData: Array
   },
+  watch: {
+    timeData: function(newValue) {
+      this.initChart(newValue);
+    }
+  },
   mounted() {
-    const chartData = {
-      datasets: [
-        {
-          backgroundColor: this.backgroundColor,
-          data: this.timeData
-        }
-      ]
-    };
-    const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: {
-        display: false
-      },
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            unit: 'day'
+    this.initChart(this.timeData);
+  },
+  methods: {
+    initChart(data) {
+      const chartData = {
+        datasets: [
+          {
+            backgroundColor: this.backgroundColor,
+            data: data
           }
-        }]
-      }
-    };
-    this.renderChart(chartData, chartOptions);
+        ]
+      };
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit: 'day'
+            }
+          }]
+        }
+      };
+      this.renderChart(chartData, chartOptions);
+    }
   }
 }
 </script>
