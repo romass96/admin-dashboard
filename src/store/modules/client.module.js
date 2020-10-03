@@ -16,8 +16,8 @@ export default {
         await context.dispatch('fetchClients');
       }
     },
-    async fetchClientRegistrationStatistics(context) {
-        const response = await httpUtils.axiosWithHeader().get(apiUrl + '/registrationStatistics');
+    async fetchClientRegistrationStatistics(context, period) {
+        const response = await httpUtils.axiosWithHeader().get(apiUrl + '/registrationStatistics?period=' + period);
         context.commit('updateClientRegistrations', response.data);
     }
   },

@@ -95,18 +95,19 @@
   <!-- Content Row -->
 
   <div class="row">
-    <DateLineChart :title="'Посещаемость сайта'" :backgroundColor="'#f87979'" :timeData="timeData" />
-    <DateLineChart :title="'Количество заказов'" :backgroundColor="'#36b9cc'" :timeData="timeData" />
-    <DateLineChart :title="'Количество регистраций пользователей'" :backgroundColor="'#1cc88a'" :timeData="clientRegistrationData" />
+    <DateLineChart :title="'Посещаемость сайта'" :backgroundColor="'#f87979'" :timeData="clientRegistrationData" />
+    <DateLineChart :title="'Количество заказов'" :backgroundColor="'#36b9cc'" :timeData="clientRegistrationData" />
+    <DateLineChart :title="'Количество регистраций пользователей'" :backgroundColor="'#1cc88a'" :timeData="clientRegistrationData">
+      <template v-slot:additionalControl>
+        <b-form-select v-model="clientRegistrationsPeriod" :options="clientRegistrationsPeriodOptions"></b-form-select>
+      </template>
+    </DateLineChart>
   </div>
 
   <!-- Content Row -->
   <div class="row">
-
     <PieChart :chartData="feedbackChartData" :title="'Продажа товаров'" />
-
     <PieChart :chartData="feedbackChartData" :title="'Отзывы'" />
-
   </div>
 
 </div>
@@ -125,67 +126,19 @@ export default {
     PieChart
   },
   data: () => ({
-    timeData: [{
-        x: new Date(2020, 0, 1),
-        y: 10
-      },
-      {
-        x: new Date(2020, 1, 1),
-        y: 25
-      },
-      {
-        x: new Date(2020, 2, 1),
-        y: 27
-      },
-      {
-        x: new Date(2020, 2, 15),
-        y: 4
-      },
-      {
-        x: new Date(2020, 3, 1),
-        y: 38
-      },
-      {
-        x: new Date(2020, 4, 1),
-        y: 12
-      },
-      {
-        x: new Date(2020, 4, 12),
-        y: 12
-      },
-      {
-        x: new Date(2020, 5, 1),
-        y: 18
-      },
-      {
-        x: new Date(2020, 5, 28),
-        y: 78
-      },
-      {
-        x: new Date(2020, 6, 1),
-        y: 67
-      },
-      {
-        x: new Date(2020, 6, 18),
-        y: 67
-      },
-      {
-        x: new Date(2020, 7, 1),
-        y: 9
-      },
-      {
-        x: new Date(2020, 8, 1),
-        y: 45
-      },
-      {
-        x: new Date(2020, 9, 1),
-        y: 10
-      }
-    ],
     clientRegistrationData: [],
-    feedbackChartData: {}
+    feedbackChartData: {},
+    clientRegistrationsPeriod: '1M',
+    clientRegistrationsPeriodOptions: [
+      { value: '1W', text: '1 неделя'},
+      { value: '1M', text: '1 месяц'},
+      { value: '3M', text: '3 месяца'},
+      { value: '6M', text: '6 месяцев'},
+      { value: '1Y', text: '1 год'},
+    ]
   }),
   async mounted() {
+    moment.locale('ru');
     await this.initFeedbackChart();
     await this.initRegistrationsChart();
   },
@@ -203,17 +156,23 @@ export default {
       };
     },
     async initRegistrationsChart() {
-      await this.$store.dispatch('fetchClientRegistrationStatistics');
-      this.clientRegistrationData = this.clientRegistrations.map(stat => {
+      await this.$store.dispatch('fetchClientRegistrationStatistics', this.clientRegistrationsPeriod);
+      console.log(this.clientRegistrations);
+      this.clientRegistrationData = Object.entries(this.clientRegistrations).map(([registrationDate, clientsCount]) => {
         return {
-          x: moment(stat.registrationDate).toDate(),
-          y: stat.clientsCount
+          x: moment(registrationDate).toDate(),
+          y: clientsCount
         };
       });
     }
   },
   computed: {
       ...mapGetters(['negativeFeedbacksCount', 'positiveFeedbacksCount', 'normalFeedbacksCount', 'clientRegistrations'])
+  },
+  watch: {
+      clientRegistrationsPeriod: function() {
+        this.initRegistrationsChart();
+      }
   }
 }
 </script>

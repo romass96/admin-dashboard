@@ -8,7 +8,7 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@/assets/css/sb-admin-2.css'
-import {ModalPlugin, VBTooltipPlugin, TablePlugin, PaginationPlugin, FormDatepickerPlugin } from 'bootstrap-vue'
+import {ModalPlugin, VBTooltipPlugin, TablePlugin, PaginationPlugin, FormDatepickerPlugin, FormSelectPlugin } from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import VueCookie from 'vue-cookie'
 
@@ -20,6 +20,7 @@ Vue.use(VBTooltipPlugin);
 Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(FormDatepickerPlugin);
+Vue.use(FormSelectPlugin);
 Vue.use(Vuelidate);
 Vue.use(VueCookie);
 
