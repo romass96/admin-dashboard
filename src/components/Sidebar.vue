@@ -58,7 +58,8 @@
     </a>
     <div id="orderMenu" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <a class="collapse-item" href="login.html">Новые</a>
+        <router-link to="/orders" class="collapse-item" :exact="true">Все</router-link>
+        <a class="collapse-item" href="">Новые</a>
         <a class="collapse-item" href="register.html">Принятые</a>
         <a class="collapse-item" href="forgot-password.html">Выполненные</a>
         <a class="collapse-item" href="forgot-password.html">Отмененные</a>
@@ -94,6 +95,13 @@
     <a class="nav-link">
       <i class="fas fa-envelope"></i>
       <span class="ml-1">Сообщения</span>
+    </a>
+  </router-link>
+
+  <router-link tag="li" active-class="active" to="/messages" class="nav-item">
+    <a class="nav-link">
+      <i class="fas fa-newspaper"></i>
+      <span class="ml-1">Рассылка</span>
     </a>
   </router-link>
 

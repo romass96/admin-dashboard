@@ -150,7 +150,7 @@
               <i class="fas fa-search"></i>
             </span>
           </div>
-          <input type="text" class="form-control" placeholder="Поиск" v-model="subSequence">
+          <input type="text" class="form-control" placeholder="Поиск" v-model="stringForSearch">
         </div>
       </div>
     </div>
@@ -253,7 +253,7 @@ export default {
     currentPage: 1,
     perPage: 5,
     totalRows: 10,
-    subSequence: null
+    stringForSearch: null
   }),
   filters: {
     fullName(client) {
@@ -261,7 +261,7 @@ export default {
     }
   },
   watch: {
-    subSequence: function() {
+    stringForSearch: function() {
       this.retrieveFeedbacksWithDelay();
     }
   },
@@ -310,7 +310,7 @@ export default {
     async retrieveFeedbacks() {
       const ratings = this.getRatings(this.feedbackType);
       const filters = {
-        pageNumber: this.currentPage - 1,
+        pageNumber: this.currentPage,
         perPage: this.perPage,
         categoryId: this.feedbackProductCategory,
         ...ratings
@@ -324,8 +324,8 @@ export default {
         filters.fromDate = fromDate.format(API_DATE_FORMAT);
       }
 
-      if (this.subSequence) {
-        filters.subSequence = this.subSequence;
+      if (this.stringForSearch) {
+        filters.stringForSearch = this.stringForSearch;
       }
       await this.$store.dispatch('fetchFeedbacksByFilters', filters);
       this.feedbacks = this.allFeedbacks;

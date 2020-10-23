@@ -81,7 +81,7 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Заказов за сегодня</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ todayOrdersCount }}</div>
             </div>
             <div class="col-auto">
               <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -96,10 +96,16 @@
 
   <div class="row">
     <DateLineChart :title="'Посещаемость сайта'" :backgroundColor="'#f87979'" :timeData="clientRegistrationData" />
-    <DateLineChart :title="'Количество заказов'" :backgroundColor="'#36b9cc'" :timeData="clientRegistrationData" />
+
+    <DateLineChart :title="'Количество заказов'" :backgroundColor="'#36b9cc'" :timeData="ordersCountData">
+      <template v-slot:additionalControl>
+        <b-form-select v-model="ordersCountPeriod" :options="periodOptions"></b-form-select>
+      </template>
+    </DateLineChart>
+
     <DateLineChart :title="'Количество регистраций пользователей'" :backgroundColor="'#1cc88a'" :timeData="clientRegistrationData">
       <template v-slot:additionalControl>
-        <b-form-select v-model="clientRegistrationsPeriod" :options="clientRegistrationsPeriodOptions"></b-form-select>
+        <b-form-select v-model="clientRegistrationsPeriod" :options="periodOptions"></b-form-select>
       </template>
     </DateLineChart>
   </div>
@@ -128,8 +134,10 @@ export default {
   data: () => ({
     clientRegistrationData: [],
     feedbackChartData: {},
+    ordersCountData: [],
     clientRegistrationsPeriod: '1M',
-    clientRegistrationsPeriodOptions: [
+    ordersCountPeriod: '1M',
+    periodOptions: [
       { value: '1W', text: '1 неделя'},
       { value: '1M', text: '1 месяц'},
       { value: '3M', text: '3 месяца'},
@@ -141,6 +149,7 @@ export default {
     moment.locale('ru');
     await this.initFeedbackChart();
     await this.initRegistrationsChart();
+    await this.initOrdersCountChart();
   },
   methods: {
     async initFeedbackChart() {
@@ -157,21 +166,40 @@ export default {
     },
     async initRegistrationsChart() {
       await this.$store.dispatch('fetchClientRegistrationStatistics', this.clientRegistrationsPeriod);
-      console.log(this.clientRegistrations);
       this.clientRegistrationData = Object.entries(this.clientRegistrations).map(([registrationDate, clientsCount]) => {
         return {
           x: moment(registrationDate).toDate(),
           y: clientsCount
         };
       });
+    },
+    async initOrdersCountChart() {
+      await this.$store.dispatch('fetchOrderStatistics', this.ordersCountPeriod);
+      this.ordersCountData = Object.entries(this.ordersCountStatistics).map(([date, ordersCount]) => {
+        return {
+          x: moment(date).toDate(),
+          y: ordersCount
+        };
+      });
     }
   },
   computed: {
-      ...mapGetters(['negativeFeedbacksCount', 'positiveFeedbacksCount', 'normalFeedbacksCount', 'clientRegistrations'])
+      ...mapGetters(['negativeFeedbacksCount',
+      'positiveFeedbacksCount',
+      'normalFeedbacksCount',
+      'clientRegistrations',
+      'ordersCountStatistics']),
+      todayOrdersCount() {
+        const dataLength = this.ordersCountData.length;
+        return dataLength ? this.ordersCountData[dataLength - 1].y : 0;
+      }
   },
   watch: {
       clientRegistrationsPeriod: function() {
         this.initRegistrationsChart();
+      },
+      ordersCountPeriod: function() {
+        this.initOrdersCountChart();
       }
   }
 }

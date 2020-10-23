@@ -133,6 +133,33 @@ const router = new Router({
       component: () => import('./views/Feedbacks.vue')
     },
     {
+      path: '/orders',
+      name: 'orders',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/Orders.vue')
+    },
+    {
+      path: '/orderDetails',
+      name: 'orderDetails',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/OrderDetails.vue')
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/Settings.vue')
+    },
+    {
       path: '*',
       name: 'pageNotFound',
       meta: {

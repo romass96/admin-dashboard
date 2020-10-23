@@ -7,6 +7,7 @@ import AuthModule from './modules/auth.module'
 import UserModule from './modules/user.module'
 import ClientModule from './modules/client.module'
 import FeedbackModule from './modules/feedback.module'
+import OrderModule from './modules/order.module'
 
 Vue.use(Vuex);
 
@@ -17,10 +18,17 @@ export default new Vuex.Store({
     ProductModule,
     UserModule,
     ClientModule,
-    FeedbackModule
+    FeedbackModule,
+    OrderModule
+  },
+  mutations: {
+    resetStore(state) {
+      Object.keys(state).forEach(key => state[key] = {});
+    }
   },
   plugins: [
     createPersistedState({
+      paths: ['AuthModule.user'],
       storage: window.sessionStorage,
     })
   ]
