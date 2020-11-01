@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <DataTable :items="clients" :fields="fields" :busy="isBusy"/>
+      <DataTable :itemsProvider="itemsProvider" :fields="fields" :busy="isBusy" ref="clientTable"/>
     </div>
   </div>
 
@@ -22,14 +22,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import DataTable from '@/components/DataTable'
+import DataTable from '@/components/ApiDataTable'
+import _ from 'lodash'
 
 export default {
   components: {
     DataTable
   },
   data: () => ({
-    clients: [],
     fields: [{
       key: 'firstName',
       label: "Имя",
@@ -50,15 +50,47 @@ export default {
       label: 'Телефон',
       sortable: true
     }],
-    isBusy: true
+    isBusy: true,
+    stringForSearch: null
   }),
-  mounted : async function() {
-    await this.$store.dispatch('fetchClientsIfTheyAreNotLoaded');
-    this.clients = this.allClients;
-    this.isBusy = false;
-  },
   computed: {
-    ...mapGetters(['allClients'])
+    ...mapGetters(['allClients', 'totalClientsCount'])
+  },
+  watch: {
+    stringForSearch: function() {
+      this.retrieveOrdersWithDelay();
+    }
+  },
+  created: async function() {
+    this.retrieveClientsWithDelay = _.debounce(this.applyFilters, 800);
+  },
+  methods: {
+    applyFilters() {
+      this.$refs.clientTable.refresh();
+    },
+    async itemsProvider(ctx) {
+      try {
+        const filters = {
+          pageNumber: ctx.currentPage,
+          perPage: ctx.perPage,
+          status: this.orderStatus,
+          stringForSearch: ctx.filter
+        };
+
+        if (ctx.sortBy.length) {
+          filters.sortBy = ctx.sortBy;
+          filters.sortDesc = ctx.sortDesc;
+        }
+        await this.$store.dispatch('fetchClientsByFilters', filters);
+        return {
+          items: this.allClients,
+          totalItems: this.totalClientsCount
+        };
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    }
   }
 }
 </script>
