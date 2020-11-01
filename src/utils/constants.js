@@ -14,9 +14,9 @@ export const ORDER_STATUSES = {
 };
 
 export const ORDER_MAP = {
-  CANCELLED : 'Отмененные',
+  CANCELLED : 'Отменен',
   PENDING : 'В обработке',
-  AWAITING_SHIPMENT: 'Ожидают доставки',
-  SHIPPED : 'Доставленные',
-  COMPLETED: 'Выполненные'
+  AWAITING_SHIPMENT: 'Ожидает доставки',
+  SHIPPED : 'Доставлен',
+  COMPLETED: 'Выполнен'
 }

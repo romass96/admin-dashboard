@@ -7,7 +7,7 @@ export default {
   actions: {
     async fetchOrdersByFilters(context, filters) {
       const response = await httpUtils.axiosWithHeader().post(apiUrl + '/filter', filters);
-      context.commit('updateOrders', response.data.orders);
+      context.commit('updateOrders', response.data.items);
       context.commit('updateOrdersCount', response.data.totalItems);
     },
     async fetchOrderStatistics(context, period) {
@@ -17,6 +17,9 @@ export default {
     async fetchOrderById(context, orderId) {
       const response = await httpUtils.axiosWithHeader().get(apiUrl + "/orderDetails?id=" + orderId);
       return response.data;
+    },
+    async cancelOrder(context, orderId) {
+      await httpUtils.axiosWithHeader().post(apiUrl + '/cancelOrder', {orderId});
     }
   },
   mutations: {

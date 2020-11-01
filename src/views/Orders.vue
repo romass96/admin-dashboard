@@ -2,6 +2,14 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card shadow mb-4">
+        <router-link class="btn btn-dark btn-circle btn-lg"
+            v-b-tooltip.hover title="Новый заказ"
+            id="add-order-btn"
+            tag="button"
+            to="/createOrder">
+          <i class="fas fa-plus"></i>
+        </router-link>
+
         <a href="#feedbackFilters" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="feedbackFilters">
           <h6 class="m-0 font-weight-bold text-dark">
             <i class="fas fa-filter"></i>
@@ -11,11 +19,15 @@
         <div class="collapse show" id="feedbackFilters">
           <div class="card-body">
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-4">
                 <label for="from-datepicker">Статус заказа</label>
                 <b-form-select v-model="orderStatus" :options="orderStatusOptions"/>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-4">
+                <label for="from-datepicker">Статус оплаты</label>
+                <b-form-select v-model="paid" :options="paidOptions"/>
+              </div>
+              <div class="form-group col-md-4">
                 <label for="categorySelect">Категория товара</label>
                 <select class="form-control custom-select" id="categorySelect" v-model="orderProductCategory">
                   <option selected disabled :value="null">Выберите категорию</option>
@@ -88,7 +100,10 @@
                     :to="{ name: 'edit-order', query: {orderId: data.item.id}}">
                   <i class="fas fa-pencil-alt"></i>
                 </router-link>
-                <button class="btn btn-circle btn-danger btn-sm m-1" v-b-tooltip.hover title="Отменить" @click="cancelOrder">
+                <button class="btn btn-circle btn-danger btn-sm m-1"
+                  v-if="isNotCancelled(data.item)"
+                  v-b-tooltip.hover title="Отменить"
+                  @click="showModalForCancel(data.item.id)">
                   <i class="fas fa-ban"></i>
                 </button>
               </span>
@@ -96,6 +111,18 @@
           </DataTable>
         </div>
       </div>
+      <b-modal ref="cancel-order-modal" :static="true">
+        <template v-slot:modal-title>
+          Отмена заказа
+        </template>
+        <div class="d-block text-center">
+          Вы действительно хотите отменить этот заказ ?
+        </div>
+        <template v-slot:modal-footer>
+          <button class="btn btn-secondary float-left" @click="$refs['cancel-order-modal'].hide()">Нет</button>
+          <button class="btn btn-danger float-right" @click="cancelOrder">Да</button>
+        </template>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -162,10 +189,10 @@ export default {
     orderStatusOptions: [
       { text: 'Не выбрано', value: null },
       { text: 'В обработке', value: ORDER_STATUSES.PENDING },
-      { text: 'Отмененные', value: ORDER_STATUSES.CANCELLED },
-      { text: 'Доставленные', value: ORDER_STATUSES.SHIPPED},
-      { text: 'Ожидают доставки', value: ORDER_STATUSES.AWAITING_SHIPMENT},
-      { text: 'Выполненные', value: ORDER_STATUSES.COMPLETED},
+      { text: 'Отменен', value: ORDER_STATUSES.CANCELLED },
+      { text: 'Доставлен', value: ORDER_STATUSES.SHIPPED},
+      { text: 'Ожидает доставки', value: ORDER_STATUSES.AWAITING_SHIPMENT},
+      { text: 'Выполнен', value: ORDER_STATUSES.COMPLETED},
     ],
     categories: [],
     dateFrom: null,
@@ -173,7 +200,13 @@ export default {
     orderProductCategory: null,
     totalOrderPriceFrom: null,
     totalOrderPriceTo: null,
-    stringForSearch: null
+    stringForSearch: null,
+    paid: null,
+    paidOptions: [
+      { text: 'Не выбрано', value: null },
+      { text: 'Не оплачен', value: false },
+      { text: 'Оплачен', value: true }
+    ]
   }),
   watch: {
     stringForSearch: function() {
@@ -194,8 +227,16 @@ export default {
 
         this.$refs.orderTable.refresh();
     },
-    cancelOrder() {
-
+    showModalForCancel(orderId) {
+      const modal = this.$refs['cancel-order-modal'];
+      modal.orderId = orderId;
+      modal.show();
+    },
+    async cancelOrder() {
+      const modal = this.$refs['cancel-order-modal'];
+      await this.$store.dispatch('cancelOrder', modal.orderId);
+      this.applyFilters();
+      modal.hide();
     },
     async itemsProvider(ctx) {
       try {
@@ -206,7 +247,8 @@ export default {
           categoryId: this.orderProductCategory,
           fromPrice: this.totalOrderPriceFrom,
           toPrice: this.totalOrderPriceTo,
-          stringForSearch: ctx.filter
+          stringForSearch: ctx.filter,
+          paid: this.paid
         };
 
         const toDate = moment(this.dateTo, DATE_PICKER_FORMAT);
@@ -232,6 +274,9 @@ export default {
         console.error(error);
         return [];
       }
+    },
+    isNotCancelled(order) {
+      return order.status !== ORDER_STATUSES.CANCELLED;
     }
   },
   computed: {
@@ -244,3 +289,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  #add-order-btn {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 500;
+  }
+
+</style>
