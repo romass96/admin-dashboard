@@ -87,28 +87,28 @@
   <router-link tag="li" active-class="active" to="/discounts" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-tags"></i>
-      <span class="ml-1">Скидки</span>
+      <span class="ml-1">Скидки (в разработке)</span>
     </a>
   </router-link>
 
   <router-link tag="li" active-class="active" to="/messages" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-envelope"></i>
-      <span class="ml-1">Сообщения</span>
+      <span class="ml-1">Сообщения (в разработке)</span>
     </a>
   </router-link>
 
   <router-link tag="li" active-class="active" to="/messages" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-newspaper"></i>
-      <span class="ml-1">Рассылка</span>
+      <span class="ml-1">Рассылка (в разработке)</span>
     </a>
   </router-link>
 
   <router-link tag="li" active-class="active" to="/settings" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-cog"></i>
-      <span class="ml-1">Настройки</span>
+      <span class="ml-1">Настройки (в разработке)</span>
     </a>
   </router-link>
 

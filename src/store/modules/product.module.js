@@ -4,17 +4,10 @@ const apiUrl = process.env.VUE_APP_API_URL + "/api/products";
 
 export default {
   actions: {
-    async fetchProducts(context) {
-      const response = await httpUtils.axiosWithHeader().get(apiUrl);
-      const products = response.data;
-      context.commit('updateProducts', products);
-      context.commit('setProductsLoaded');
-      return products;
-    },
-    async fetchProductsIfTheyAreNotLoaded(context) {
-      if (!context.state.loaded) {
-        await context.dispatch('fetchProducts');
-      }
+    async fetchProductsByFilters(context, filters) {
+      const response = await httpUtils.axiosWithHeader().post(apiUrl + '/filter', filters);
+      context.commit('updateProducts', response.data.items);
+      context.commit('updateProductsCount', response.data.totalItems);
     },
     async addProduct(context, product) {
       const response = await httpUtils.axiosWithHeader().post(apiUrl, product);
@@ -43,21 +36,21 @@ export default {
     addProduct(state, product) {
       state.products.push(product);
     },
-    setProductsLoaded(state) {
-      state.loaded = true;
-    }
+    updateProductsCount(state, productsCount) {
+      state.productsCount = productsCount;
+    },
   },
   state: {
     products: [],
-    loaded: false
+    productsCount: 0
   },
   getters: {
     allProducts(state) {
       return state.products;
     },
     findProductById: state => id => state.products.find(product => product.id == id),
-    areProductsLoaded(state) {
-      return state.loaded;
-    }
+    totalProductsCount(state) {
+      return state.productsCount;
+    },
   }
 }

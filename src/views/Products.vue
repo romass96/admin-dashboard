@@ -21,7 +21,7 @@
         <i class="fas fa-plus"></i>
       </router-link>
 
-      <DataTable :items="products" :fields="fields" :busy="isBusy">
+      <DataTable :itemsProvider="itemsProvider" :fields="fields" ref="productTable">
         <template v-slot:cell(actions)="data">
           <span class="action-bar">
             <router-link
@@ -77,19 +77,15 @@
 </template>
 
 <script>
-import DataTable from '@/components/DataTable'
+import DataTable from '@/components/ApiDataTable'
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 
 export default {
   components: {
     DataTable
   },
   data: () => ({
-    perPageOptions: [
-      5, 10, 15, 20, 25, 50
-    ],
-    perPage: 5,
-    currentPage: 1,
     products: [],
     fields: [{
       key: 'name',
@@ -116,15 +112,18 @@ export default {
       label: 'Действия',
       sortable: false
     }],
-    isBusy: true
+    stringForSearch: null,
   }),
-  mounted : async function() {
-    await this.$store.dispatch('fetchProductsIfTheyAreNotLoaded');
-    this.products = this.allProducts;
-    this.isBusy = false;
+  created : async function() {
+    this.retrieveOrdersWithDelay = _.debounce(this.applyFilters, 800);
+  },
+  watch: {
+    stringForSearch: function() {
+      this.retrieveProductsWithDelay();
+    }
   },
   computed: {
-    ...mapGetters(['allProducts']),
+    ...mapGetters(['allProducts', 'totalProductsCount']),
     rows() {
       return this.products.length
     }
@@ -143,8 +142,30 @@ export default {
         modal.hide();
       });
     },
-    changePerPage(perPage) {
-      this.perPage = perPage;
+    async itemsProvider(ctx) {
+      try {
+        const filters = {
+          pageNumber: ctx.currentPage,
+          perPage: ctx.perPage,
+          stringForSearch: ctx.filter
+        };
+
+        if (ctx.sortBy.length) {
+          filters.sortBy = ctx.sortBy;
+          filters.sortDesc = ctx.sortDesc;
+        }
+        await this.$store.dispatch('fetchProductsByFilters', filters);
+        return {
+          items: this.allProducts,
+          totalItems: this.totalProductsCount
+        };
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    },
+    applyFilters() {
+      this.$refs.productTable.refresh();
     }
   }
 }

@@ -83,7 +83,7 @@
     <div class="col-md-12">
       <div class="card shadow mb-4">
         <div class="card-body">
-          <DataTable :itemsProvider="itemsProvider" :fields="fields" :busy="isBusy" ref="orderTable">
+          <DataTable :itemsProvider="itemsProvider" :fields="fields" ref="orderTable">
             <template v-slot:cell(actions)="data">
               <span class="action-bar">
                 <router-link
@@ -184,7 +184,6 @@ export default {
       label: 'Действия',
       sortable: false
     }],
-    isBusy: true,
     orderStatus: null,
     orderStatusOptions: [
       { text: 'Не выбрано', value: null },

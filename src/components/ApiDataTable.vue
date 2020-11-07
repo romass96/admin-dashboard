@@ -8,7 +8,10 @@
         </select>
         <span> записей</span>
       </div>
-      <div class="d-inline-block">
+      <div class="d-inline-block" style="position: relative">
+        <span class="delete-search-text" v-show="isFilterPresent" @click="resetFilter">
+          <i class="fas fa-times"></i>
+        </span>
         <div class="input-group flex-nowrap">
           <div class="input-group-prepend">
             <span class="input-group-text">
@@ -52,7 +55,6 @@
 export default {
   props: {
     fields: Array,
-    busy: Boolean,
     itemsProvider: Function
   },
   data: () => ({
@@ -72,6 +74,14 @@ export default {
     },
     refresh() {
       this.$refs.dataTable.refresh();
+    },
+    resetFilter() {
+      this.filter = null;
+    }
+  },
+  computed: {
+    isFilterPresent() {
+      return this.filter && this.filter.length;
     }
   }
 }
@@ -85,5 +95,13 @@ export default {
 
 .form-control:focus {
   box-shadow: none;
+}
+
+.delete-search-text {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  cursor: pointer;
+  z-index: 1000;
 }
 </style>
