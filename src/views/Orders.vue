@@ -88,20 +88,20 @@
               <span class="action-bar">
                 <router-link
                     tag="button"
-                    class="btn btn-circle btn-dark btn-sm m-1"
+                    class="btn btn-dark btn-sm m-1 toolbar-btn"
                     v-b-tooltip.hover title="Детали"
                     :to="{ name: 'orderDetails', query: {orderId: data.item.id}}">
                   <i class="fas fa-info"></i>
                 </router-link>
                 <router-link
                     tag="button"
-                    class="btn btn-circle btn-dark btn-sm m-1"
+                    class="btn btn-dark btn-sm m-1 toolbar-btn"
                     v-b-tooltip.hover title="Изменить"
                     :to="{ name: 'edit-order', query: {orderId: data.item.id}}">
                   <i class="fas fa-pencil-alt"></i>
                 </router-link>
-                <button class="btn btn-circle btn-danger btn-sm m-1"
-                  v-if="isNotCancelled(data.item)"
+                <button class="btn btn-danger btn-sm m-1 toolbar-btn"
+                  v-if="canBeCancelled(data.item)"
                   v-b-tooltip.hover title="Отменить"
                   @click="showModalForCancel(data.item.id)">
                   <i class="fas fa-ban"></i>
@@ -274,8 +274,10 @@ export default {
         return [];
       }
     },
-    isNotCancelled(order) {
-      return order.status !== ORDER_STATUSES.CANCELLED;
+    canBeCancelled(order) {
+      return order.status !== ORDER_STATUSES.CANCELLED
+        && order.status !== ORDER_STATUSES.COMPLETED
+        && order.status !== ORDER_STATUSES.SHIPPED;
     }
   },
   computed: {
@@ -295,6 +297,10 @@ export default {
     bottom: 50px;
     right: 50px;
     z-index: 500;
+  }
+
+  .toolbar-btn {
+    min-width: 30px;
   }
 
 </style>
