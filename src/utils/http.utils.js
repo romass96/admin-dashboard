@@ -1,5 +1,6 @@
 import store from '@/store/index'
 import axios from 'axios'
+import router from '@/router'
 
 export default {
   authHeader() {
@@ -13,9 +14,20 @@ export default {
 
   axiosWithHeader() {
     const header = this.authHeader();
-    return axios.create({
+    const axiosClient = axios.create({
       headers:  header
     });
+
+    axiosClient.interceptors.response.use(response => {
+      return response;
+    }, error => {
+      if (error.response.status === 401 ) {
+        router.push('/login');
+      }
+      return error;
+    });
+
+    return axiosClient;
   }
 
 }
