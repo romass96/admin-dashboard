@@ -23,6 +23,11 @@ export default {
       const url = `${apiUrl}/${product.id}`;
       await httpUtils.axiosWithHeader().put(url, product);
       await context.dispatch('fetchProducts');
+    },
+    async fetchSoldProductsStatistics(context) {
+      const response = await httpUtils.axiosWithHeader().get(apiUrl + '/productSoldStatistics');
+      console.log(response.data);
+      context.commit('updateSoldProductsStatistics', response.data);
     }
   },
   mutations: {
@@ -39,10 +44,14 @@ export default {
     updateProductsCount(state, productsCount) {
       state.productsCount = productsCount;
     },
+    updateSoldProductsStatistics(state, statistics) {
+      state.soldProductsStatistics = statistics;
+    }
   },
   state: {
     products: [],
-    productsCount: 0
+    productsCount: 0,
+    soldProductsStatistics: []
   },
   getters: {
     allProducts(state) {
@@ -52,5 +61,8 @@ export default {
     totalProductsCount(state) {
       return state.productsCount;
     },
+    soldProductsStatistics(state) {
+      return state.soldProductsStatistics;
+    }
   }
 }

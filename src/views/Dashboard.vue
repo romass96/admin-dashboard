@@ -112,7 +112,7 @@
 
   <!-- Content Row -->
   <div class="row">
-    <PieChart :chartData="feedbackChartData" :title="'Продажа товаров'" />
+    <PieChart :chartData="soldProductsChartData" :title="'Продажа товаров'" />
     <PieChart :chartData="feedbackChartData" :title="'Отзывы'" />
   </div>
 
@@ -135,6 +135,7 @@ export default {
     clientRegistrationData: [],
     feedbackChartData: {},
     ordersCountData: [],
+    soldProductsChartData: {},
     clientRegistrationsPeriod: '1M',
     ordersCountPeriod: '1M',
     periodOptions: [
@@ -150,6 +151,7 @@ export default {
     await this.initFeedbackChart();
     await this.initRegistrationsChart();
     await this.initOrdersCountChart();
+    await this.initProductSoldChart();
   },
   methods: {
     async initFeedbackChart() {
@@ -181,6 +183,23 @@ export default {
           y: ordersCount
         };
       });
+    },
+    async initProductSoldChart() {
+      await this.$store.dispatch('fetchSoldProductsStatistics');
+      const statistics = this.soldProductsStatistics;
+      const soldProductsData = statistics.splice(0, 5);
+      const otherProductsCount = statistics.reduce((accumulator, currentElement) => {
+        return accumulator + currentElement.productCount;
+      }, 0);
+      soldProductsData.push({productName: 'Остальные товары', productCount: otherProductsCount});
+      this.soldProductsChartData = soldProductsData;
+      this.soldProductsChartData = {
+        labels: soldProductsData.map(element => element.productName),
+        datasets: [{
+          backgroundColor: ["#41B883", "#F6C23E", "#E46651", "#36B9CC", "#F87979", "FF763C"],
+          data: soldProductsData.map(element => element.productCount)
+        }]
+      };
     }
   },
   computed: {
@@ -188,7 +207,8 @@ export default {
       'positiveFeedbacksCount',
       'normalFeedbacksCount',
       'clientRegistrations',
-      'ordersCountStatistics']),
+      'ordersCountStatistics',
+      'soldProductsStatistics']),
       todayOrdersCount() {
         const dataLength = this.ordersCountData.length;
         return dataLength ? this.ordersCountData[dataLength - 1].y : 0;
