@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <DataTable :itemsProvider="itemsProvider" :fields="fields" :busy="isBusy" ref="clientTable"/>
+      <DataTable :itemsProvider="itemsProvider" :fields="fields" ref="clientTable"/>
     </div>
   </div>
 
@@ -49,8 +49,12 @@ export default {
       key: 'phoneNumber',
       label: 'Телефон',
       sortable: true
+    },
+    {
+      key: 'ordersCount',
+      label: 'Количество заказов',
+      sortable: false
     }],
-    isBusy: true,
     stringForSearch: null
   }),
   computed: {

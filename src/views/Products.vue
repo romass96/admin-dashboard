@@ -93,7 +93,7 @@ export default {
       sortable: true
     },
     {
-      key: 'category.name',
+      key: 'categoryName',
       label: 'Категория',
       sortable: true
     },

@@ -7,7 +7,7 @@ export default {
   actions: {
     async fetchFeedbacksByFilters(context, filters) {
       const response = await httpUtils.axiosWithHeader().post(apiUrl + '/filter', filters);
-      const feedbacks = response.data.feedbacks;
+      const feedbacks = response.data.items;
       context.commit('updateFeedbacks', feedbacks);
       context.commit('updateTotalItems', response.data.totalItems);
     },

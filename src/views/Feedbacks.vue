@@ -159,7 +159,7 @@
         <div class="d-flex flex-row align-items-center justify-content-between">
           <h6 class="m-0 font-weight-bold">
             <i class="fas fa-shopping-bag"></i>
-            {{ feedback.product.name }}
+            {{ feedback.productName }}
           </h6>
           <div class="d-flex flex-row align-items-center justify-content-between">
             <BFormRating v-model="feedback.rating" variant="warning" size="sm" inline no-border readonly />
@@ -183,7 +183,7 @@
           {{ feedback.disadvantages }}
         </p>
         <div class="d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">{{ feedback.client | fullName}}</h6>
+          <h6 class="m-0 font-weight-bold text-primary">{{ feedback.clientFullName}}</h6>
           <button class="btn btn-dark btn-icon-split ml-1">
             <span class="icon text-white-50" >
               <i class="fas fa-share"></i>
@@ -255,11 +255,6 @@ export default {
     totalRows: 10,
     stringForSearch: null
   }),
-  filters: {
-    fullName(client) {
-      return client.firstName + ' ' + client.lastName;
-    }
-  },
   watch: {
     stringForSearch: function() {
       this.retrieveFeedbacksWithDelay();

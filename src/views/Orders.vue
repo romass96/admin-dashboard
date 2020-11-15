@@ -149,11 +149,8 @@ export default {
       sortable: true
     },
     {
-      key: 'client',
+      key: 'clientFullName',
       label: 'Клиент',
-      formatter: (value) => {
-        return value.firstName + ' ' + value.lastName;
-      },
       sortable: false
     },
     {
