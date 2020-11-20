@@ -95,7 +95,7 @@ export default {
     {
       key: 'categoryName',
       label: 'Категория',
-      sortable: true
+      sortable: false
     },
     {
       key: 'price',
@@ -123,7 +123,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['allProducts', 'totalProductsCount']),
+    ...mapGetters(['allFilteredProducts', 'totalFilteredProductsCount']),
     rows() {
       return this.products.length
     }
@@ -138,7 +138,7 @@ export default {
       const component = this;
       const modal = this.$refs['delete-product-modal'];
       component.$store.dispatch('deleteProduct', modal.productId).then(function() {
-        component.products = component.allProducts;
+        component.products = component.allFilteredProducts;
         modal.hide();
       });
     },
@@ -156,8 +156,8 @@ export default {
         }
         await this.$store.dispatch('fetchProductsByFilters', filters);
         return {
-          items: this.allProducts,
-          totalItems: this.totalProductsCount
+          items: this.allFilteredProducts,
+          totalItems: this.totalFilteredProductsCount
         };
       } catch (error) {
         console.error(error);

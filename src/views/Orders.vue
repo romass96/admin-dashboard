@@ -178,8 +178,10 @@ export default {
     },
     {
       key: 'actions',
-      label: 'Действия',
-      sortable: false
+      label: '',
+      sortable: false,
+      tdClass: "border-0",
+      thClass: "border-0"
     }],
     orderStatus: null,
     orderStatusOptions: [

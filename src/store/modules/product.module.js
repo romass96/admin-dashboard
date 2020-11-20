@@ -6,8 +6,8 @@ export default {
   actions: {
     async fetchProductsByFilters(context, filters) {
       const response = await httpUtils.axiosWithHeader().post(apiUrl + '/filter', filters);
-      context.commit('updateProducts', response.data.items);
-      context.commit('updateProductsCount', response.data.totalItems);
+      context.commit('updateFilteredProducts', response.data.items);
+      context.commit('updateFilteredProductsCount', response.data.totalItems);
     },
     async addProduct(context, product) {
       const response = await httpUtils.axiosWithHeader().post(apiUrl, product);
@@ -26,13 +26,16 @@ export default {
     },
     async fetchSoldProductsStatistics(context) {
       const response = await httpUtils.axiosWithHeader().get(apiUrl + '/productSoldStatistics');
-      console.log(response.data);
       context.commit('updateSoldProductsStatistics', response.data);
+    },
+    async fetchAllProducts(context) {
+      const response = await httpUtils.axiosWithHeader().get(apiUrl);
+      context.commit('updateAllProducts', response.data);
     }
   },
   mutations: {
-    updateProducts(state, products) {
-      state.products = products;
+    updateFilteredProducts(state, products) {
+      state.filteredProducts = products;
     },
     removeProduct(state, productId) {
       const index = state.products.findIndex(product => product.id === productId);
@@ -41,28 +44,36 @@ export default {
     addProduct(state, product) {
       state.products.push(product);
     },
-    updateProductsCount(state, productsCount) {
-      state.productsCount = productsCount;
+    updateFilteredProductsCount(state, productsCount) {
+      state.filteredProductsCount = productsCount;
     },
     updateSoldProductsStatistics(state, statistics) {
       state.soldProductsStatistics = statistics;
+    },
+    updateAllProducts(state, products) {
+      state.allProducts = products;
     }
   },
   state: {
-    products: [],
-    productsCount: 0,
+    allProducts: [],
+    filteredProducts: [],
+    filteredProductsCount: 0,
     soldProductsStatistics: []
   },
   getters: {
     allProducts(state) {
-      return state.products;
+      return state.allProducts;
+    },
+    allFilteredProducts(state) {
+      return state.filteredProducts;
     },
     findProductById: state => id => state.products.find(product => product.id == id),
-    totalProductsCount(state) {
-      return state.productsCount;
+    totalFilteredProductsCount(state) {
+      return state.filteredProductsCount;
     },
     soldProductsStatistics(state) {
       return state.soldProductsStatistics;
-    }
+    },
+    // findProductById: state => id => state.allProducts.find(product => product.id == id),
   }
 }

@@ -53,7 +53,7 @@ export default {
     {
       key: 'ordersCount',
       label: 'Количество заказов',
-      sortable: false
+      sortable: true
     }],
     stringForSearch: null
   }),

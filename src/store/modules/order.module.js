@@ -1,5 +1,4 @@
 import httpUtils from '@/utils/http.utils'
-// import {ORDERS} from '@/utils/constants'
 
 const apiUrl = process.env.VUE_APP_API_URL + "/api/orders";
 
@@ -20,6 +19,9 @@ export default {
     },
     async cancelOrder(context, orderId) {
       await httpUtils.axiosWithHeader().post(apiUrl + '/cancelOrder', {orderId});
+    },
+    async createOrder(context, order) {
+      await httpUtils.axiosWithHeader().post(apiUrl, order);
     }
   },
   mutations: {
