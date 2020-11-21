@@ -13,7 +13,19 @@
       </div>
     </div>
     <div class="card-body">
-      <DataTable :itemsProvider="itemsProvider" :fields="fields" ref="clientTable"/>
+      <DataTable :itemsProvider="itemsProvider" :fields="fields" ref="clientTable">
+        <template v-slot:cell(actions)="data">
+          <span class="action-bar">
+            <router-link
+                tag="button"
+                class="btn btn-dark btn-sm m-1 table-toolbar-btn"
+                v-b-tooltip.hover title="Детали"
+                :to="{ name: 'client-info', query: {clientId: data.item.id}}">
+              <i class="fas fa-info"></i>
+            </router-link>
+          </span>
+        </template>
+      </DataTable>
     </div>
   </div>
 
@@ -54,6 +66,11 @@ export default {
       key: 'ordersCount',
       label: 'Количество заказов',
       sortable: true
+    },
+    {
+      key: 'actions',
+      label: 'Действия',
+      sortable: false
     }],
     stringForSearch: null
   }),

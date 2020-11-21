@@ -12,6 +12,10 @@ export default {
     async fetchClientRegistrationStatistics(context, period) {
         const response = await httpUtils.axiosWithHeader().get(apiUrl + '/registrationStatistics?period=' + period);
         context.commit('updateClientRegistrations', response.data);
+    },
+    async fetchClientById(context, clientId) {
+      const response = await httpUtils.axiosWithHeader().get(apiUrl + '/' + clientId);
+      return response.data;
     }
   },
   mutations: {

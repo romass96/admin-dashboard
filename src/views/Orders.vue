@@ -84,23 +84,28 @@
       <div class="card shadow mb-4">
         <div class="card-body">
           <DataTable :itemsProvider="itemsProvider" :fields="fields" ref="orderTable">
+            <template v-slot:cell(clientFullName)="data">
+              <router-link :to="{ name: 'client-info', query: {clientId: data.item.clientId}}">
+                {{ data.item.clientFullName }}
+              </router-link>
+            </template>
             <template v-slot:cell(actions)="data">
               <span class="action-bar">
                 <router-link
                     tag="button"
-                    class="btn btn-dark btn-sm m-1 toolbar-btn"
+                    class="btn btn-dark btn-sm m-1 table-toolbar-btn"
                     v-b-tooltip.hover title="Детали"
                     :to="{ name: 'orderDetails', query: {orderId: data.item.id}}">
                   <i class="fas fa-info"></i>
                 </router-link>
                 <router-link
                     tag="button"
-                    class="btn btn-dark btn-sm m-1 toolbar-btn"
+                    class="btn btn-dark btn-sm m-1 table-toolbar-btn"
                     v-b-tooltip.hover title="Изменить"
                     :to="{ name: 'edit-order', query: {orderId: data.item.id}}">
                   <i class="fas fa-pencil-alt"></i>
                 </router-link>
-                <button class="btn btn-danger btn-sm m-1 toolbar-btn"
+                <button class="btn btn-danger btn-sm m-1 table-toolbar-btn"
                   v-if="canBeCancelled(data.item)"
                   v-b-tooltip.hover title="Отменить"
                   @click="showModalForCancel(data.item.id)">
@@ -178,10 +183,8 @@ export default {
     },
     {
       key: 'actions',
-      label: '',
-      sortable: false,
-      tdClass: "border-0",
-      thClass: "border-0"
+      label: 'Действия',
+      sortable: false
     }],
     orderStatus: null,
     orderStatusOptions: [
@@ -237,7 +240,6 @@ export default {
       modal.hide();
     },
     async itemsProvider(ctx) {
-      try {
         const filters = {
           pageNumber: ctx.currentPage,
           perPage: ctx.perPage,
@@ -263,15 +265,7 @@ export default {
           filters.sortBy = ctx.sortBy;
           filters.sortDesc = ctx.sortDesc;
         }
-        await this.$store.dispatch('fetchOrdersByFilters', filters);
-        return {
-          items: this.allOrders,
-          totalItems: this.totalOrdersCount
-        };
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
+        return await this.$store.dispatch('fetchOrdersByFilters', filters);
     },
     canBeCancelled(order) {
       return order.status !== ORDER_STATUSES.CANCELLED
@@ -280,7 +274,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['allOrders', 'totalOrdersCount', 'allCategories'])
+    ...mapGetters(['allCategories'])
   },
   created: async function() {
     this.retrieveOrdersWithDelay = _.debounce(this.applyFilters, 800);

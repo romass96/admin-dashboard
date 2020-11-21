@@ -87,3 +87,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .table-toolbar-btn {
+    min-width: 30px;
+  }
+</style>

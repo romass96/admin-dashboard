@@ -62,7 +62,6 @@ export default {
     const order = await this.$store.dispatch('fetchOrderById', orderId);
     this.items = order.orderItems;
     this.order = order;
-    console.log(order);
   }
 }
 </script>

@@ -31,6 +31,10 @@ export default {
     async fetchAllProducts(context) {
       const response = await httpUtils.axiosWithHeader().get(apiUrl);
       context.commit('updateAllProducts', response.data);
+    },
+    async fetchClientProductsByCategories(context, clientId) {
+      const response = await httpUtils.axiosWithHeader().get(apiUrl + '/clientProductsForCategories?clientId=' + clientId);
+      return response.data;
     }
   },
   mutations: {

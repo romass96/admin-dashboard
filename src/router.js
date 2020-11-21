@@ -115,6 +115,15 @@ const router = new Router({
       component: () => import('./views/Clients.vue')
     },
     {
+      path: '/client-info',
+      name: 'client-info',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/ClientInfo.vue')
+    },
+    {
       path: '/admins',
       name: 'admins',
       meta: {

@@ -196,7 +196,6 @@ export default {
       this.soldProductsChartData = {
         labels: soldProductsData.map(element => element.productName),
         datasets: [{
-          backgroundColor: ["#41B883", "#F6C23E", "#E46651", "#36B9CC", "#F87979", "FF763C"],
           data: soldProductsData.map(element => element.productCount)
         }]
       };

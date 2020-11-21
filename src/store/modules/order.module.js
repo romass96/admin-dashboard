@@ -6,8 +6,10 @@ export default {
   actions: {
     async fetchOrdersByFilters(context, filters) {
       const response = await httpUtils.axiosWithHeader().post(apiUrl + '/filter', filters);
-      context.commit('updateOrders', response.data.items);
-      context.commit('updateOrdersCount', response.data.totalItems);
+      return {
+        items: response.data.items,
+        totalItems: response.data.totalItems
+      }
     },
     async fetchOrderStatistics(context, period) {
         const response = await httpUtils.axiosWithHeader().get(apiUrl + '/orderStatistics?period=' + period);
@@ -22,15 +24,13 @@ export default {
     },
     async createOrder(context, order) {
       await httpUtils.axiosWithHeader().post(apiUrl, order);
+    },
+    async fetchClientOrdersForStatuses(context, clientId) {
+      const response = await httpUtils.axiosWithHeader().get(apiUrl + '/clientOrdersForStatuses?clientId=' + clientId);
+      return response.data;
     }
   },
   mutations: {
-    updateOrders(state, orders) {
-      state.orders = orders;
-    },
-    updateOrdersCount(state, ordersCount) {
-      state.ordersCount = ordersCount;
-    },
     updateOrdersCountStatistics(state, ordersCountStatistics) {
       state.ordersCountStatistics = ordersCountStatistics;
     }
@@ -41,12 +41,12 @@ export default {
     ordersCountStatistics: {}
   },
   getters: {
-    allOrders(state) {
-      return state.orders;
-    },
-    totalOrdersCount(state) {
-      return state.ordersCount;
-    },
+    // allOrders(state) {
+    //   return state.orders;
+    // },
+    // totalOrdersCount(state) {
+    //   return state.ordersCount;
+    // },
     ordersCountStatistics(state) {
       return state.ordersCountStatistics;
     }
