@@ -25,8 +25,11 @@ export default {
       Vue.cookie.delete('token');
       commit('logout');
     },
-    async resetPassword() {
-
+    async resetPassword(context, email) {
+      await httpUtils.axiosWithHeader().post(apiUrl + '/api/auth/resetPassword', {email});
+    },
+    async changePassword(context, data) {
+      await httpUtils.axiosWithHeader().post(apiUrl + '/api/auth/changePassword', data);
     },
     async fetchUserInfo(context, token) {
       context.commit('setUser', {token});

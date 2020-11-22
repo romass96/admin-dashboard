@@ -1,6 +1,8 @@
 <template>
 <div class="row">
-  <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+  <div class="col-lg-6 d-none d-lg-block">
+    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" src="@/assets/img/login.svg" alt="">
+  </div>
   <div class="col-lg-6">
     <div class="p-5">
       <div class="text-center">
@@ -77,15 +79,11 @@ export default {
       this.$store.dispatch('login', formData).then(() => {
         this.$router.push('/dashboard');
       }).catch(() => {
-        this.$bvModal.msgBoxOk('Неправильный логин или пароль', {
-          title: 'Ошибка',
-          size: 'sm',
-          buttonSize: 'sm',
-          okVariant: 'danger',
-          headerClass: 'p-2 border-bottom-0',
-          footerClass: 'p-2 border-top-0',
-          centered: true
-        }).then(() => this.$refs.loginForm.reset());
+        this.$swal({
+            title: "Ошибка",
+            text: "Неправильная почта или пароль",
+            icon: "error"
+          }).then(() => this.$refs.loginForm.reset());
       })
     }
   }

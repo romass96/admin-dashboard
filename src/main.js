@@ -11,6 +11,7 @@ import '@/assets/css/sb-admin-2.css'
 import {ModalPlugin, VBTooltipPlugin, TablePlugin, PaginationPlugin, FormDatepickerPlugin, FormSelectPlugin, SpinnerPlugin } from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import VueCookie from 'vue-cookie'
+import VueSwal from 'vue-swal'
 
 
 Vue.config.productionTip = false;
@@ -24,6 +25,7 @@ Vue.use(FormSelectPlugin);
 Vue.use(SpinnerPlugin);
 Vue.use(Vuelidate);
 Vue.use(VueCookie);
+Vue.use(VueSwal);
 
 new Vue({
   router,

@@ -34,6 +34,15 @@ const router = new Router({
       component: () => import('./views/ForgotPassword.vue')
     },
     {
+      path: '/changePassword',
+      name: 'change-password',
+      meta: {
+        layout: 'auth',
+        requiredAuth: false
+      },
+      component: () => import('./views/ChangePassword.vue')
+    },
+    {
       path: '/categories',
       name: 'categories',
       meta: {
