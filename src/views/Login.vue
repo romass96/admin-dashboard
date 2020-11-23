@@ -78,10 +78,14 @@ export default {
       }
       this.$store.dispatch('login', formData).then(() => {
         this.$router.push('/dashboard');
-      }).catch(() => {
+      }).catch((error) => {
+        let message = "Неправильная почта или пароль";
+        if (error.response.status === 423) {
+          message = "Ваш аккаунт заблокирован.\n Обратитесь к администратору."  
+        }
         this.$swal({
             title: "Ошибка",
-            text: "Неправильная почта или пароль",
+            text: message,
             icon: "error"
           }).then(() => this.$refs.loginForm.reset());
       })

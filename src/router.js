@@ -88,6 +88,15 @@ const router = new Router({
       component: () => import('./views/Products.vue')
     },
     {
+      path: '/createOrder',
+      name: 'create-order',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/CreateOrder.vue')
+    },
+    {
       path: '/createProduct',
       name: 'create-product',
       meta: {

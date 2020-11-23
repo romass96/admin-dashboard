@@ -8,33 +8,26 @@ export default {
       const response = await httpUtils.axiosWithHeader().get(apiUrl);
       const users = response.data;
       context.commit('updateUsers', users);
-      context.commit('setUsersLoaded');
       return users;
     },
-    async fetchUsersIfTheyAreNotLoaded(context) {
-      if (!context.state.usersLoaded) {
-        await context.dispatch('fetchUsers');
-      }
+    async lockUser(context, userId) {
+      await httpUtils.axiosWithHeader().post(apiUrl + '/lockUser', {userId});
+    },
+    async unlockUser(context, userId) {
+      await httpUtils.axiosWithHeader().post(apiUrl + '/unlockUser', {userId});
     }
   },
   mutations: {
-    setUsersLoaded(state) {
-      state.usersLoaded = true;
-    },
     updateUsers(state, users) {
       state.users = users;
     }
   },
   state: {
-    users: [],
-    usersLoaded: false
+    users: []
   },
   getters: {
     allUsers(state) {
       return state.users;
-    },
-    areUsersLoaded(state) {
-      return state.usersLoaded;
     }
   }
 }
