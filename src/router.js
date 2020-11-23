@@ -169,6 +169,15 @@ const router = new Router({
       component: () => import('./views/OrderDetails.vue')
     },
     {
+      path: '/newsletters',
+      name: 'newsletters',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/Newsletters.vue')
+    },
+    {
       path: '/settings',
       name: 'settings',
       meta: {

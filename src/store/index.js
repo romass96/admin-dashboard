@@ -8,6 +8,7 @@ import UserModule from './modules/user.module'
 import ClientModule from './modules/client.module'
 import FeedbackModule from './modules/feedback.module'
 import OrderModule from './modules/order.module'
+import NewsletterModule from './modules/newsletter.module'
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     UserModule,
     ClientModule,
     FeedbackModule,
-    OrderModule
+    OrderModule,
+    NewsletterModule
   },
   mutations: {
     resetStore(state) {

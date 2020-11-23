@@ -292,8 +292,4 @@ export default {
     z-index: 500;
   }
 
-  .toolbar-btn {
-    min-width: 30px;
-  }
-
 </style>

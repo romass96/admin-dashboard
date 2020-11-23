@@ -88,10 +88,10 @@
     </a>
   </router-link>
 
-  <router-link tag="li" active-class="active" to="/messages" class="nav-item">
+  <router-link tag="li" active-class="active" to="/newsletters" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-newspaper"></i>
-      <span class="ml-1">Рассылка (в разработке)</span>
+      <span class="ml-1">Рассылки</span>
     </a>
   </router-link>
 

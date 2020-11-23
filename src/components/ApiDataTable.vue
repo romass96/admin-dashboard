@@ -39,10 +39,10 @@
         </div>
       </template>
       <template #emptyfiltered="scope">
-        <h4>{{ noRecordsText }}</h4>
+        <p class="text-center">{{ noRecordsText }}</p>
       </template>
       <template #empty="scope">
-        <h4>{{ noRecordsText }}</h4>
+        <p class="text-center">{{ noRecordsText }}</p>
       </template>
     </b-table>
 

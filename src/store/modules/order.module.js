@@ -41,12 +41,6 @@ export default {
     ordersCountStatistics: {}
   },
   getters: {
-    // allOrders(state) {
-    //   return state.orders;
-    // },
-    // totalOrdersCount(state) {
-    //   return state.ordersCount;
-    // },
     ordersCountStatistics(state) {
       return state.ordersCountStatistics;
     }
