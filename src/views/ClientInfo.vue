@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="card shadow mb-4 border-left-primary" v-show="orderCount">
+    <div class="card shadow mb-4 border-left-primary" v-show="orderTableVisible">
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Заказы клиента</h6>
       </div>
@@ -118,8 +118,9 @@ export default {
           return ORDER_MAP[value];
         },
         sortable: false,
-      },
+      }
     ],
+    orderTableVisible: true
   }),
   methods: {
     async ordersProvider(ctx) {
@@ -139,6 +140,7 @@ export default {
         filters
       );
       this.orderCount = ordersData.totalItems;
+      this.orderTableVisible = this.orderCount > 0 || (ctx.filter && ctx.filter.length > 0);
       return ordersData;
     },
     async initClientCategoriesChart() {
@@ -152,8 +154,8 @@ export default {
         datasets: [
           {
             data: data.map((element) => element.productCount),
-          },
-        ],
+          }
+        ]
       };
     },
     async initClientOrdersChart() {
@@ -167,8 +169,8 @@ export default {
         datasets: [
           {
             data: data.map((element) => element.orderCount),
-          },
-        ],
+          }
+        ]
       };
     },
   },

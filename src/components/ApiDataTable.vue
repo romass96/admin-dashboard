@@ -24,7 +24,6 @@
     </div>
 
     <b-table hover bordered id="dataTable" ref="dataTable" show-empty
-      :empty-text="'Нет данных по вашему запросу'"
       :items="advancedItemsProvider"
       :fields="fields"
       :filter="filter"
@@ -38,6 +37,12 @@
           <b-spinner class="align-middle"></b-spinner>
           <strong>Загрузка...</strong>
         </div>
+      </template>
+      <template #emptyfiltered="scope">
+        <h4>{{ noRecordsText }}</h4>
+      </template>
+      <template #empty="scope">
+        <h4>{{ noRecordsText }}</h4>
       </template>
     </b-table>
 
@@ -55,7 +60,11 @@
 export default {
   props: {
     fields: Array,
-    itemsProvider: Function
+    itemsProvider: Function,
+    noRecordsText: {
+      type: String,
+      default: 'Нет данных по вашему запросу'
+    }
   },
   data: () => ({
     perPageOptions: [
