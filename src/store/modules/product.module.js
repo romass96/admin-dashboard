@@ -14,14 +14,18 @@ export default {
       const productWithId = response.data;
       context.commit('addProduct', productWithId);
     },
-    async deleteProduct(context, productId) {
-      const url = `${apiUrl}/${productId}`;
-      await httpUtils.axiosWithHeader().delete(url);
+    async archiveProduct(context, productId) {
+      const url = `${apiUrl}/archive?id=${productId}`;
+      await httpUtils.axiosWithHeader().post(url);
+      context.commit('removeProduct', productId);
+    },
+    async unarchiveProduct(context, productId) {
+      const url = `${apiUrl}/unarchive?id=${productId}`;
+      await httpUtils.axiosWithHeader().post(url);
       context.commit('removeProduct', productId);
     },
     async updateProduct(context, product) {
-      const url = `${apiUrl}/${product.id}`;
-      await httpUtils.axiosWithHeader().put(url, product);
+      await httpUtils.axiosWithHeader().put(apiUrl, product);
       await context.dispatch('fetchProducts');
     },
     async fetchSoldProductsStatistics(context) {
@@ -35,6 +39,11 @@ export default {
     async fetchClientProductsByCategories(context, clientId) {
       const response = await httpUtils.axiosWithHeader().get(apiUrl + '/clientProductsForCategories?clientId=' + clientId);
       return response.data;
+    },
+    async fetchProductById(context, productId) {
+      const url = `${apiUrl}/${productId}`;
+      const response = await httpUtils.axiosWithHeader().get(url);
+      return response.data;
     }
   },
   mutations: {
@@ -42,8 +51,8 @@ export default {
       state.filteredProducts = products;
     },
     removeProduct(state, productId) {
-      const index = state.products.findIndex(product => product.id === productId);
-      state.products.splice(index, 1);
+      const index = state.filteredProducts.findIndex(product => product.id === productId);
+      state.filteredProducts.splice(index, 1);
     },
     addProduct(state, product) {
       state.products.push(product);
