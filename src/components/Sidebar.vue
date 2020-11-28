@@ -77,14 +77,24 @@
   <router-link tag="li" active-class="active" to="/discounts" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-tags"></i>
-      <span class="ml-1">Скидки (в разработке)</span>
+      <span class="ml-1">Скидки</span>
+      <span class="badge badge-warning in-development ml-1">В разработке</span>
     </a>
   </router-link>
 
   <router-link tag="li" active-class="active" to="/messages" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-envelope"></i>
-      <span class="ml-1">Сообщения (в разработке)</span>
+      <span class="ml-1">Сообщения</span>
+      <span class="badge badge-warning in-development ml-1">В разработке</span>
+    </a>
+  </router-link>
+
+  <router-link tag="li" active-class="active" to="/blog" class="nav-item">
+    <a class="nav-link">
+      <i class="fas fa-blog"></i>
+      <span class="ml-1">Блог</span>
+      <span class="badge badge-warning in-development ml-1">В разработке</span>
     </a>
   </router-link>
 
@@ -98,7 +108,8 @@
   <router-link tag="li" active-class="active" to="/settings" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-cog"></i>
-      <span class="ml-1">Настройки (в разработке)</span>
+      <span class="ml-1">Настройки</span>
+      <span class="badge badge-warning in-development ml-1">В разработке</span>
     </a>
   </router-link>
 
@@ -116,5 +127,9 @@
 <style scoped>
 li.nav-item > a {
   cursor: pointer;
+}
+
+.in-development {
+  font-size: 10px!important;
 }
 </style>

@@ -92,4 +92,8 @@ export default {
   .table-toolbar-btn {
     min-width: 30px;
   }
+  .table-action-bar {
+    display: flex;
+    justify-content: center;
+  }
 </style>

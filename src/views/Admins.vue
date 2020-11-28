@@ -9,7 +9,7 @@
       <div class="card-body">
         <DataTable :items="users" :fields="fields" :busy="isBusy">
           <template v-slot:cell(actions)="data">
-            <span class="action-bar" v-if="data.item.role === 'MANAGER'">
+            <span class="table-action-bar" v-if="data.item.role === 'MANAGER'">
               <button class="btn btn-danger btn-sm m-1 table-toolbar-btn" v-if="!data.item.locked"
                v-b-tooltip.hover title="Заблокировать" @click="lockManager(data.item.id)">
                 <i class="fas fa-lock"></i>
@@ -65,6 +65,9 @@ export default {
         key: "actions",
         label: "Действия",
         sortable: false,
+        thStyle: {
+          width: '5%'
+        }
       },
     ],
     isBusy: true,

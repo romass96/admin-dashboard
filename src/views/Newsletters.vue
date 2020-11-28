@@ -7,7 +7,7 @@
         title="Новая рассылка"
         id="add-newsletter-btn"
         tag="button"
-        to="/createOrder"
+        to="/createNewsletter"
       >
         <i class="fas fa-plus"></i>
       </router-link>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import DataTable from "@/components/ApiDataTable";
 import _ from "lodash";
 
@@ -50,6 +50,11 @@ export default {
   },
   data: () => ({
     fields: [
+      {
+        key: "subject",
+        label: "Тема",
+        sortable: true,
+      },
       {
         key: "createdDate",
         label: "Дата создания",

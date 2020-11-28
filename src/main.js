@@ -14,6 +14,7 @@ import {
   TablePlugin, 
   PaginationPlugin, 
   FormDatepickerPlugin, 
+  FormTimepickerPlugin,
   FormSelectPlugin, 
   SpinnerPlugin,
   FormCheckboxPlugin  } from 'bootstrap-vue'
@@ -29,6 +30,7 @@ Vue.use(VBTooltipPlugin);
 Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(FormDatepickerPlugin);
+Vue.use(FormTimepickerPlugin);
 Vue.use(FormSelectPlugin);
 Vue.use(SpinnerPlugin);
 Vue.use(FormCheckboxPlugin);

@@ -168,7 +168,10 @@ export default {
     createOrder() {
       if (this.$v.$invalid) {
         this.$v.$touch();
-        return
+        return;
+      }
+      if (!this.isOrderValid()) {
+        return;
       }
       const order = {
         comment: this.comment,
@@ -198,6 +201,17 @@ export default {
     itemChanged(index) {
       const orderItem = this.orderItems[index];
       orderItem.price = orderItem.quantity * orderItem.product.price;
+    },
+    isOrderValid() {
+      if (this.orderItems.length === 0) {
+          this.$swal({
+            title: "Ошибка",
+            text: "Заказ не содержит ни одного товара!",
+            icon: "error"
+          });
+          return false;
+      }
+      return true;
     }
   }
 }

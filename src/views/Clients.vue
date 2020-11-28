@@ -15,7 +15,7 @@
     <div class="card-body">
       <DataTable :itemsProvider="itemsProvider" :fields="fields" ref="clientTable">
         <template v-slot:cell(actions)="data">
-          <span class="action-bar">
+          <span class="table-action-bar">
             <router-link
                 tag="button"
                 class="btn btn-dark btn-sm m-1 table-toolbar-btn"
@@ -90,7 +90,6 @@ export default {
       this.$refs.clientTable.refresh();
     },
     async itemsProvider(ctx) {
-      try {
         const filters = {
           pageNumber: ctx.currentPage,
           perPage: ctx.perPage,
@@ -107,10 +106,6 @@ export default {
           items: this.allClients,
           totalItems: this.totalClientsCount
         };
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
     }
   }
 }

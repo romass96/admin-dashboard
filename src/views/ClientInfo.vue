@@ -7,7 +7,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <label for="firstName">Имя</label>
+            <label for="firstName" class="font-weight-bold">Имя</label>
           </div>
           <div class="col-md-6">
             <p id="firstName">{{ client.firstName }}</p>
@@ -15,42 +15,42 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label for="firstName">Фамилия</label>
+            <label for="lastName" class="font-weight-bold">Фамилия</label>
           </div>
           <div class="col-md-6">
-            <p id="firstName">{{ client.lastName }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label for="firstName">Email</label>
-          </div>
-          <div class="col-md-6">
-            <p id="firstName">{{ client.email }}</p>
+            <p id="lastName">{{ client.lastName }}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label for="firstName">Номер телефона</label>
+            <label for="email" class="font-weight-bold">Email</label>
           </div>
           <div class="col-md-6">
-            <p id="firstName">{{ client.phoneNumber }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label for="firstName">Дата регистрации</label>
-          </div>
-          <div class="col-md-6">
-            <p id="firstName">{{ client.registrationDate }}</p>
+            <p id="email">{{ client.email }}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label for="firstName">Количество заказов</label>
+            <label for="phoneNumber" class="font-weight-bold">Номер телефона</label>
           </div>
           <div class="col-md-6">
-            <p id="firstName">{{ orderCount }}</p>
+            <p id="phoneNumber">{{ client.phoneNumber }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="registrationDate" class="font-weight-bold">Дата регистрации</label>
+          </div>
+          <div class="col-md-6">
+            <p id="registrationDate">{{ client.registrationDate }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="orderCount" class="font-weight-bold">Количество заказов</label>
+          </div>
+          <div class="col-md-6">
+            <p id="orderCount">{{ orderCount }}</p>
           </div>
         </div>
       </div>

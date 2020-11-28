@@ -160,10 +160,10 @@
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           Профиль
         </a>
-        <a class="dropdown-item" href="#">
+        <router-link class="dropdown-item" to="/settings">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
           Настройки
-        </a>
+        </router-link>
         <div class="dropdown-divider"></div>
         <a href class="dropdown-item" @click.prevent="logout">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

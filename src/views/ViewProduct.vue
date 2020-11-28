@@ -6,7 +6,7 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-4">
-          <label for="productName">Название</label>
+          <label for="productName" class="font-weight-bold">Название</label>
         </div>
         <div class="col-md-8">
           <p id="productName">{{ productName }}</p>
@@ -14,7 +14,7 @@
       </div>
       <div class="row">
         <div class="col-md-4">
-          <label for="productCategoryName">Категория</label>
+          <label for="productCategoryName" class="font-weight-bold">Категория</label>
         </div>
         <div class="col-md-8">
           <p id="productCategoryName">{{ productCategoryName }}</p>
@@ -22,7 +22,7 @@
       </div>
       <div class="row">
         <div class="col-md-4">
-          <label for="productPrice">Цена</label>
+          <label for="productPrice" class="font-weight-bold">Цена</label>
         </div>
         <div class="col-md-8">
           <p id="productPrice">{{ productPrice }}</p>
@@ -30,7 +30,7 @@
       </div>
       <div class="row">
         <div class="col-md-4">
-          <label for="productDescription">Описание товара</label>
+          <label for="productDescription" class="font-weight-bold">Описание товара</label>
         </div>
         <div class="col-md-8">
           <p id="productDescription">{{ productDescription }}</p>

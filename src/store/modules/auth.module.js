@@ -12,6 +12,7 @@ export default {
             email, password
         });
         const userInfo = response.data;
+        console.log(userInfo);
         if (rememberMe) {
           Vue.cookie.set('token', userInfo.token, {expires: '1h'});
         }

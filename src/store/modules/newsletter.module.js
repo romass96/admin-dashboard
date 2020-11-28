@@ -10,6 +10,9 @@ export default {
         items: response.data.items,
         totalItems: response.data.totalItems
       }
+    },
+    async createNewsletter(context, newsletter) {
+      await httpUtils.axiosWithHeader().post(apiUrl, newsletter);
     }
   },
   mutations: {

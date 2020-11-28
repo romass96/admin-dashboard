@@ -97,6 +97,15 @@ const router = new Router({
       component: () => import('./views/CreateOrder.vue')
     },
     {
+      path: '/editOrder',
+      name: 'edit-order',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/EditOrder.vue')
+    },
+    {
       path: '/createProduct',
       name: 'create-product',
       meta: {
@@ -185,6 +194,15 @@ const router = new Router({
         requiredAuth: true
       },
       component: () => import('./views/Newsletters.vue')
+    },
+    {
+      path: '/createNewsletter',
+      name: 'create-newsletter',
+      meta: {
+        layout: 'main',
+        requiredAuth: true
+      },
+      component: () => import('./views/CreateNewsletter.vue')
     },
     {
       path: '/settings',
