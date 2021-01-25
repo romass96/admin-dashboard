@@ -374,17 +374,6 @@ export default {
     await this.retrieveFeedbacks();
     next();
   },
-  // async beforeRouteEnter (to, from, next) {
-  //   next(async function(vm)  {
-  //     vm.setFiltersFromRoute(to);
-  //     await vm.retrieveFeedbacks();
-  //
-  //     await vm.$store.dispatch('fetchCategoriesIfTheyAreNotLoaded');
-  //     vm.categories = vm.allCategories;
-  //
-  //     await vm.$store.dispatch('fetchFeedbacksStatistics');
-  //   });
-  // },
   computed: {
     ...mapGetters([
       "allFeedbacks",

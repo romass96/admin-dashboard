@@ -74,6 +74,13 @@
     </div>
   </li>
 
+  <router-link tag="li" active-class="active" to="/productQuestions" class="nav-item">
+    <a class="nav-link">
+      <i class="fas fa-question"></i>
+      <span class="ml-1">Вопросы</span>
+    </a>
+  </router-link>
+
   <router-link tag="li" active-class="active" to="/discounts" class="nav-item">
     <a class="nav-link">
       <i class="fas fa-tags"></i>

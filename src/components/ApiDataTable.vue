@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <b-table hover bordered id="dataTable" ref="dataTable" show-empty
+    <b-table hover id="dataTable" ref="dataTable" show-empty
       :items="advancedItemsProvider"
       :fields="fields"
       :filter="filter"
@@ -38,10 +38,10 @@
           <strong>Загрузка...</strong>
         </div>
       </template>
-      <template #emptyfiltered="scope">
+      <template v-slot:emptyfiltered>
         <p class="text-center">{{ noRecordsText }}</p>
       </template>
-      <template #empty="scope">
+      <template v-slot:empty>
         <p class="text-center">{{ noRecordsText }}</p>
       </template>
     </b-table>

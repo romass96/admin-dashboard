@@ -94,6 +94,6 @@ export default {
   }
   .table-action-bar {
     display: flex;
-    justify-content: center;
+    justify-content: start;
   }
 </style>
